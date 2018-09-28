@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script  src="../../js/jquery-3.3.1.min.js"></script>
+
+
+		<style>
+			#leftName , #btn,#rightName{
+				float: left;
+				width: 100px;
+				height: 300px;
+			}
+			#toRight,#toLeft{
+				margin-top:100px ;
+				margin-left:30px;
+				width: 50px;
+			}
+#Alltoleft,#AlltoRight{
+	margin-top:10px ;
+	margin-left:15px;
+	width: 50px;
+}
+			.border{
+				height: 500px;
+				padding: 100px;
+			}
+		</style>
+
+		<script>
+
+			//需求：实现下拉列表选中条目左右选择功能
+			
+			$(function () {
+				//toRight
+				$("#toRight").click(function () {
+					//获取右边的下拉列表对象，append(左边下拉列表选中的option)
+					$("#rightName").append($("#leftName > option:selected"));
+                });
+
+                //toLeft
+                $("#toLeft").click(function () {
+                    //appendTo   获取右边选中的option，将其移动到左边下拉列表中
+					$("#rightName > option:selected").appendTo($("#leftName"));
+
+                });
+            });
+			/* JQ 入口函数 双击移动*/
+			/*  将双击事件绑定到 select 标签上 */
+			$(function () {
+				/* 1. 双击事件: 左边的下拉选移动到右边的下拉选中 */
+				// $("#leftName>option").dblclick(function (){
+				$("#leftName").dblclick(function (){
+					// $('#leftName option').removeProp("selected");
+					$("#rightName").append($("#leftName>option:selected"));
+					
+				});
+				/* 2. 右边的双击移动到左边 */
+				// $('#rightName>option').dblclick(function () {
+				$('#rightName').dblclick(function () {
+					// $("#rightName option").removeProp("selected");
+					$("#leftName").append($("#rightName>option:selected"));
+				});
+			});
+			
+			/*  3. 全选移动按钮 */
+			$(function(){
+				/* 左边的全部移动到右边 */
+				$('#AlltoRight').click(function () {
+					$("#rightName").append($('#leftName>option'));
+				});
+				/* 右边的移动到边 */
+				$('#AlltoLeft').click(function () {
+					$('#leftName').append($("#rightName>option"));
+				});
+			});
+
+		</script>
+	</head>
+	<body>
+		<div class="border">
+			<select id="leftName" multiple="multiple">
+				<option>张三</option>
+				<option>李四</option>
+				<option>王五</option>
+				<option>赵六</option>
+			</select>
+			<div id="btn">
+				<input type="button" id="toRight" value="-->"><br>
+				<input type="button" id="toLeft" value="<--"><br>
+				<input type="button" id="AlltoRight" value="--->"><br>
+				<input type="button" id="AlltoLeft" value="<---"><br>
+
+			</div>
+
+			<select id="rightName" multiple="multiple">
+				<option>钱七</option>
+			</select>
+
+		</div>
+
+
+	</body>
+</html>
