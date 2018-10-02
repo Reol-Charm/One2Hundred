@@ -29,7 +29,6 @@ public class ListServlet extends HttpServlet {
         /* todo 将查到的所有用户信息 保存到 list 集合中*/
         ArrayList<User> userList = (ArrayList<User>) service3rd.queryAll();
 
-
         try {
             request.getSession().setAttribute("userList", userList);
             /* 5.2 登陆成功! 转发到 list.jsp 展示获取到的所有人员信息; 重定向必须加项目工程名! */
