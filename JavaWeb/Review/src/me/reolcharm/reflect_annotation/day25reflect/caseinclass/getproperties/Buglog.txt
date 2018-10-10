@@ -1,0 +1,8 @@
+本次异常方法是: add
+异常名称: NullPointerException
+异常原因: null
+---------------------
+本次异常方法是: div
+异常名称: ArithmeticException
+异常原因: / by zero
+---------------------
