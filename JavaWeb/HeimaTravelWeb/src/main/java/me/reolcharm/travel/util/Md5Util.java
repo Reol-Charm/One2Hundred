@@ -1,4 +1,4 @@
-package cn.itcast.travel.util;
+package me.reolcharm.travel.util;
 
 import java.security.MessageDigest;
 

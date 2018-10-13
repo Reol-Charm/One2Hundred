@@ -7,6 +7,9 @@
         <link rel="stylesheet" href="css/register.css">
 		<!--导入jquery-->
 		<script src="js/jquery-3.3.1.js"></script>
+        <script>
+
+        </script>
     </head>
 	<body>
 	<!--引入头部-->
@@ -21,8 +24,10 @@
     			<div class="rg_form_center">
 					
 					<!--注册表单-->
-    				<form id="registerForm">
+                    <!--【B】方式一： 优化后的提交路径末尾为模块内方法名称。-->
+    				<form id="registerForm" action="./user/register" method="post">
 						<!--提交处理请求的标识符-->
+                        <!--【B】方式二： 隐藏表单域提交要请求的方法名称 -->
 						<input type="hidden" name="action" value="register">
     					<table style="margin-top: 25px;">
     						<tr>

@@ -1,4 +1,4 @@
-package com.itheima.travel.web.filter;
+package me.reolcharm.travel.web.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * 解决全站乱码问题，处理所有的请求
  */
-@WebFilter("/*")
+
 public class CharchaterFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

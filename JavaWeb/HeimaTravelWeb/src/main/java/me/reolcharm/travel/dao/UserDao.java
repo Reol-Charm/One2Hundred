@@ -6,5 +6,8 @@
  **/
 package me.reolcharm.travel.dao;
 
-public class DoDao {
+import me.reolcharm.travel.domain.User;
+
+public interface UserDao {
+    User searchByUsername(String username);
 }

@@ -1,4 +1,4 @@
-package com.itheima.travel.model;
+package me.reolcharm.travel.domain;
 
 import java.io.Serializable;
 import java.util.List;
