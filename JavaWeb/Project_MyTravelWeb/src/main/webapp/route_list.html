@@ -249,8 +249,8 @@
         alert(cid.split("=")[1]);*/
         var cid = location.search.split("=")[1];
         /*传递 cid, currentPage, */
-        $.get("/route/pageRouteInfo", {"cid": cid, "pageSize": 5, "currentPage": 1}, function (pageBean) {
-
+        $.get("./route/getPageRouteInfo", {"cid": cid, "pageSize": 5, "currentPage": 1}, function (pageBean) {
+            alert(pageBean);
         });
     });
 </script>

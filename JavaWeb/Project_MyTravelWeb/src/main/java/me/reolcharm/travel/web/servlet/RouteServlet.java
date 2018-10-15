@@ -18,7 +18,7 @@ import java.io.IOException;
  * @Description:
  **/
 public class RouteServlet extends BaseServlet {
-    public void pageRouteInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void getPageRouteInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*获取 cid , currentPage*/
         String cidStr = request.getParameter("cid");
         String currentePageStr = request.getParameter("currentePage");
@@ -38,24 +38,25 @@ public class RouteServlet extends BaseServlet {
             if (currentPage < 0) {
                 currentPage = 1;
             }
-        } else {
-            /*currentePageStr == null*/
+        }
+        if (currentePageStr == null) {
             currentPage = 1;
         }
 
         int pageSize = 0;
         if (pageSizeStr != null && pageSizeStr.length() > 0) {
             pageSize = Integer.parseInt(pageSizeStr);
-        } else {
+        }
+        if (pageSizeStr == null) {
             pageSize = 5;
         }
-
         /*调用 service, 进行封装等操作 */
         RouteService routeService = new RouteServiceImpl();
-        PageBean<Route> pageBean = routeService.getPageBean(cid, currentPage);
+        PageBean<Route> pageBean = routeService.getPageBean(cid, currentPage, pageSize);
 
-        writerAsString(pageBean, response);
-
+        String pageBean_Json = writerAsString(pageBean, response);
+        System.out.println("pageBean_Json = " + pageBean_Json);
+        response.getWriter().write(pageBean_Json);
     }
 }
 

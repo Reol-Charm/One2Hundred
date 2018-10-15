@@ -13,7 +13,17 @@ import java.util.List;
 
 public interface RouteDao {
 
+    /**
+     * @param cid
+     * @param currentPage
+     * @param pageSize
+     * @return List<Route>
+     */
     List<Route> findPerPageData(int cid, int currentPage, int pageSize);
 
+    /**
+     * @param cid
+     * @return
+     */
     int findTotalSize(int cid);
 }

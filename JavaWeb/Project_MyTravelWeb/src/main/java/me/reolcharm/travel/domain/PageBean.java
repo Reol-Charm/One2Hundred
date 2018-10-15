@@ -27,7 +27,7 @@ public class PageBean<T> {
      * @Date: 2018/10/14-20:59
      * @Description: 每页显示的数据集合
      */
-    private List<T> pageBeans;
+    private List<T> pageList;
 
     public PageBean() {
     }
@@ -64,11 +64,11 @@ public class PageBean<T> {
         this.totalSize = totalSize;
     }
 
-    public List<T> getPageBeans() {
-        return pageBeans;
+    public List<T> getPageList() {
+        return pageList;
     }
 
-    public void setPageBeans(List<T> pageBeans) {
-        this.pageBeans = pageBeans;
+    public void setPageList(List<T> pageList) {
+        this.pageList = pageList;
     }
 }

@@ -7,9 +7,7 @@
 package me.reolcharm.travel.service.impl;
 
 import me.reolcharm.travel.dao.RouteDao;
-import me.reolcharm.travel.dao.UserDao;
 import me.reolcharm.travel.dao.impl.RouteDaoImpl;
-import me.reolcharm.travel.dao.impl.UserDaoImpl;
 import me.reolcharm.travel.domain.PageBean;
 import me.reolcharm.travel.domain.Route;
 import me.reolcharm.travel.service.RouteService;
@@ -20,14 +18,28 @@ public class RouteServiceImpl implements RouteService {
     private RouteDao dao = new RouteDaoImpl();
 
     @Override
-    public PageBean<Route> getPageBean(int cid, int currentPage) {
+    public PageBean<Route> getPageBean(int cid, int currentPage, int pageSize) {
         PageBean pb = new PageBean();
-        /*每页显示条数*/
-        int pageSize = 5;
+        /*封装 pageBean */
         /*查询该分类下总数据数*/
         int totalSize = dao.findTotalSize(cid);
-        List<Route> pageBeanList = dao.findPerPageData(cid, currentPage, pageSize);
-
+        pb.setTotalSize(totalSize);
         pb.setCurrentPage(currentPage);
+        /*每页显示条数*/
+        pb.setPageSize(pageSize);
+
+        /*总页数 = 总页码 / 每页显示条数*/
+        /*除得尽就取值, 不然 + 1 [向上取整~]*/
+        Integer totalPage = totalSize % pageSize == 0 ? (totalSize / pageSize) : ((totalSize / pageSize) + 1);
+        pb.setTotalPage(totalPage);
+        /*[B] 查询该分类下 分页区间内 的数据*/
+        /*
+        1. 语法：limit 开始的索引,每页查询的条数;
+		2. 公式：开始的索引 = （当前的页码 - 1） * 每页显示的条数*/
+        int startIndex = (currentPage - 1) * pageSize;
+        List<Route> routeList = dao.findPerPageData(cid, startIndex, pageSize);
+        pb.setPageList(routeList);
+
+        return pb;
     }
 }

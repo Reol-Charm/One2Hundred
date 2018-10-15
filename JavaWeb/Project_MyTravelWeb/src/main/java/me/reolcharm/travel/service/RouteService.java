@@ -11,6 +11,11 @@ import me.reolcharm.travel.domain.Route;
 
 public interface RouteService {
 
-    PageBean<Route> getPageBean(int cid, int currentPage);
-
+    /**
+     * @param cid
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    PageBean<Route> getPageBean(int cid, int currentPage, int pageSize);
 }

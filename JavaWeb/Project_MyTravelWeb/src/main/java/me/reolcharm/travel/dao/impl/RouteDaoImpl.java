@@ -18,17 +18,29 @@ import java.util.List;
 public class RouteDaoImpl implements RouteDao {
     private JdbcTemplate template = new JdbcTemplate(JdbcUtils.getDataSource());
 
+    /**
+     * @param cid 分类id
+     * @param startIndex 分页查询的开始索引。
+     * @param pageSize
+     * @return
+     */
     @Override
-    public List<Route> findPerPageData(int cid, int currentPage, int pageSize) {
+    public List<Route> findPerPageData(int cid, int startIndex, int pageSize) {
         /*当前页数 = */
-
         return template.query("select * from tab_route where cid = ? limit ?, ?",
-                new BeanPropertyRowMapper<Route>(Route.class), cid);
+                new BeanPropertyRowMapper<Route>(Route.class), cid, startIndex, pageSize);
     }
 
+    /**
+     * @Param: [cid]
+     * @Return: int
+     * @Author: Reolcharm
+     * @Date: 2018/10/14-23:50
+     * @Description: 查询某分类下数据总数.
+     */
     @Override
     public int findTotalSize(int cid) {
-
-        return 0;
+        String sql = "select count(*) from tab_route where cid=?";
+        return template.queryForObject(sql, Integer.class, cid);
     }
 }
