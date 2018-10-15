@@ -6,7 +6,6 @@ import me.reolcharm.travel.service.RouteService;
 import me.reolcharm.travel.service.impl.RouteServiceImpl;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,13 +14,13 @@ import java.io.IOException;
  * @Project: HeimaTravelWeb
  * @Author: Reolcharm
  * @CreatedTime: 2018-10-12 18:20
- * @Description:
+ * @Description: 点击分类进入该分类下线路展示route_list页面
  **/
 public class RouteServlet extends BaseServlet {
     public void getPageRouteInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*获取 cid , currentPage*/
         String cidStr = request.getParameter("cid");
-        String currentePageStr = request.getParameter("currentePage");
+        String currentPageStr = request.getParameter("currentPage");
         String pageSizeStr = request.getParameter("pageSize");
         /*处理参数/*格式转换*/
 
@@ -31,32 +30,41 @@ public class RouteServlet extends BaseServlet {
             cid = Integer.parseInt(cidStr);
         }
 
-        int currentPage = 0;
-        if (currentePageStr != null && currentePageStr.length() > 0) {
-            currentPage = Integer.parseInt(currentePageStr);
-            /*设置默认值, 如果页面没有传递, 或者 <= 0, */
-            if (currentPage < 0) {
-                currentPage = 1;
-            }
-        }
-        if (currentePageStr == null) {
+
+        /*页面传递 null 过来.*/
+        int currentPage = 1;
+        currentPage = strNum2Int(currentPageStr, currentPage);
+        /*设置默认值, 如果页面没有传递, 或者 <= 0, */
+        if (currentPage < 0) {
             currentPage = 1;
         }
 
-        int pageSize = 0;
-        if (pageSizeStr != null && pageSizeStr.length() > 0) {
-            pageSize = Integer.parseInt(pageSizeStr);
-        }
-        if (pageSizeStr == null) {
-            pageSize = 5;
-        }
+        /*!"null".equalsIgnoreCase(pageSizeStr*/
+        int pageSize = 5;
+        pageSize = strNum2Int(pageSizeStr, pageSize);
+
         /*调用 service, 进行封装等操作 */
         RouteService routeService = new RouteServiceImpl();
         PageBean<Route> pageBean = routeService.getPageBean(cid, currentPage, pageSize);
 
-        String pageBean_Json = writerAsString(pageBean, response);
-        System.out.println("pageBean_Json = " + pageBean_Json);
-        response.getWriter().write(pageBean_Json);
+        String pagebeanJson = writerAsString(pageBean, response);
+        System.out.println("pageBean_Json = " + pagebeanJson);
+        response.getWriter().write(pagebeanJson);
+
     }
+
+    /**
+     * @param str 待转换的字符串
+     * @param defaultNum pagebean 中的默认值.
+     * @return 转换好的 int 值.
+     */
+    private int strNum2Int(String str, int defaultNum) {
+        if (str != null && !"null".equalsIgnoreCase(str) && str.length() != 0) {
+            return defaultNum = Integer.parseInt(str);
+        } else {
+            return defaultNum;
+        }
+    }
+
 }
 
