@@ -14,7 +14,7 @@ import java.io.IOException;
  * @Project: HeimaTravelWeb
  * @Author: Reolcharm
  * @CreatedTime: 2018-10-12 18:20
- * @Description: 点击分类进入该分类下线路展示route_list页面
+ * @Description: 点击分类进入该分类下线路展示 route_list页面
  **/
 public class RouteServlet extends BaseServlet {
     public void getPageRouteInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
