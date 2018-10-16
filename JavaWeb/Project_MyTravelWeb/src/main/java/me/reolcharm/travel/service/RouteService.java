@@ -15,7 +15,8 @@ public interface RouteService {
      * @param cid
      * @param currentPage
      * @param pageSize
+     * @param rname
      * @return
      */
-    PageBean<Route> getPageBean(int cid, int currentPage, int pageSize);
+    PageBean<Route> getPageBean(int cid, int currentPage, int pageSize, String rname);
 }

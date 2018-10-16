@@ -17,12 +17,19 @@ import java.util.List;
 public class RouteServiceImpl implements RouteService {
     private RouteDao dao = new RouteDaoImpl();
 
+    /**
+     * @param cid
+     * @param currentPage
+     * @param pageSize
+     * @param rname
+     * @return PageBean<Route>
+     */
     @Override
-    public PageBean<Route> getPageBean(int cid, int currentPage, int pageSize) {
+    public PageBean<Route> getPageBean(int cid, int currentPage, int pageSize, String rname) {
         PageBean pb = new PageBean();
         /*封装 pageBean */
         /*查询该分类下总数据数*/
-        int totalSize = dao.findTotalSize(cid);
+        int totalSize = dao.findTotalSize(cid,rname);
         pb.setTotalSize(totalSize);
         pb.setCurrentPage(currentPage);
         /*每页显示条数*/
@@ -37,7 +44,7 @@ public class RouteServiceImpl implements RouteService {
         1. 语法：limit 开始的索引,每页查询的条数;
 		2. 公式：开始的索引 = （当前的页码 - 1） * 每页显示的条数*/
         int startIndex = (currentPage - 1) * pageSize;
-        List<Route> routeList = dao.findPerPageData(cid, startIndex, pageSize);
+        List<Route> routeList = dao.findPerPageData(cid, startIndex, pageSize, rname);
         pb.setPageList(routeList);
 
         return pb;

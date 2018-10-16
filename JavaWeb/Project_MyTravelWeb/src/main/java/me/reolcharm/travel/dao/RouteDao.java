@@ -17,13 +17,15 @@ public interface RouteDao {
      * @param cid
      * @param currentPage
      * @param pageSize
+     * @param rname
      * @return List<Route>
      */
-    List<Route> findPerPageData(int cid, int currentPage, int pageSize);
+    List<Route> findPerPageData(int cid, int currentPage, int pageSize, String rname);
 
     /**
      * @param cid
+     * @param rname
      * @return
      */
-    int findTotalSize(int cid);
+    int findTotalSize(int cid, String rname);
 }

@@ -133,6 +133,7 @@
 <div id="footer"></div>
 <!--导入布局js，共享header和footer-->
 <script type="text/javascript" src="js/include.js"></script>
+<script src="js/getParameter.js"></script>
 <!--
 
      < ------------用户逻辑------------- >
@@ -147,14 +148,29 @@
 <script>
     /*入口函数*/
     $(function () {
-        var cid = location.search.split("=")[1];
+        // var cid = location.search.split("=")[1];
+        /*----------------[B]接受 header.html 页面传过来的参数---------------*/
+        var cid = getParameter("cid");
+        var currentPage = getParameter("currentPage");
+        var rname = getParameter("rname");
+        /* -------------------------地址栏转码  --------------------*/
+        rname = window.decodeURIComponent(rname);
         // load(cid, currentPage); wrong ！！！因为之前页面没有 currentPage 这一变量
-        load(cid);
+        load(cid, rname);
     });
 
+    /* -----------------👇页面展示功能👇----------------------*/
+
     /*传递 cid, currentPage, */
-    function load(cid, currentPage) {
-        $.get("./route/getPageRouteInfo", {"cid": cid, "currentPage": currentPage}, function (pageBean) {
+    /*[Bug]: 之前写的是 load(cid, currentPage),
+    但在入口函数里, 传入的是 load(cid, rname); 传到后台的就一直是currentPage ="杭州*/
+    function load(cid, rname, currentPage) {
+        /*[改造]: 增加查询关键字 rname*/
+        $.get("./route/getPageRouteInfo", {
+            "cid": cid,
+            "rname": rname,
+            "currentPage": currentPage
+        }, function (pageBean) {
             /*数据展示*/
             /* traverse the array.
             * 拿到 pageBean json 数组, 对其进行遍历, <ul><li>每一条的数据</li></ul>*/
@@ -185,14 +201,20 @@
             $("#totalPage").html(pageBean.totalPage);
             $("#totalSize").html(pageBean.totalSize);
             /*上一页*/
+            /*Bug: pageBean.currentPage 为1,  */
             var prePageNum = pageBean["currentPage"] - 1;
-            if (prePageNum < 0) {
+            if (prePageNum <= 1) {
                 prePageNum = 1;
+                /*移除点击*/
+                $("#previousLi").removeAttr("onclick");
+
             }
             /*下一页*/
+            // var nextPageNum = pageBean["currentPage"] + 1;
             var nextPageNum = pageBean["currentPage"] + 1;
-            if (nextPageNum > pageBean.totalPage) {
+            if (nextPageNum >= pageBean.totalPage) {
                 nextPageNum = pageBean.totalPage;
+                $("#nextLi").removeAttr("onclick");
             }
 
             /*通过控制页码数字, 来控制分页条*/
@@ -221,10 +243,13 @@
                 end = currentPage + 4;
 
                 /*[B] 意味着 start 和 currentPage 之间的差值 小于 5*/
-                if (start < 1) {
+                /* currtPage = 5 时 , 5 - 5 = 0, end + 9 , 最后一页就变成 14 了 */
+                // if (start < 1) {
+                if (start <= 0) {
                     /*[B] 类似于重置, 赋默认值的操作*/
                     start = 1;
-                    end = pageBean["currentPage"] + 9;
+                    // end = pageBean["currentPage"] + 9;
+                    end = start + 9;
                 }
 
                 /*[B] 意味着差值小于 4, 当前页面和最后一页差 4. /*end - pageBean["currentPage"] < 4*/
@@ -242,7 +267,7 @@
             /* ------------------------------ 拼接分页 ------------------------------------ */
 
             var homeLi = '<li onclick="javaScript:load(' + cid + ')" id="homeLi"><a href="javaScript:void(0);">首页</a></li>';
-            homeLi += '<li onclick="javaScript:load(' + cid + ',' + prePageNum + ')" id="previousLi" class="threeword"><a href="">上一页</a></li>';
+            homeLi += '<li onclick="javaScript:load(' + cid + ',' + prePageNum + ')" id="previousLi" class="threeword"><a href="javaScript:void(0);">上一页</a></li>';
             var li = "";
             /* [B] 通过数字 开始和结束 控制展示个数*/
             for (var i = start; i <= end; i++) {
@@ -254,7 +279,7 @@
                 }
                 homeLi += li;
             }
-            homeLi += '<li id="nextLi" class="threeword" onclick="javascript:load(' + cid + ',' + nextPageNum + ')"><a href=>下一页</a></li>';
+            homeLi += '<li id="nextLi" class="threeword" onclick="javascript:load(' + cid + ',' + nextPageNum + ')"><a href="javaScript:void(0);">下一页</a></li>';
             homeLi += '<li id="lastLi" class="threeword" onclick="javascript:load(' + cid + ',' + pageBean.totalPage + ')"><a href="javaScript:void(0);">末页</a></li>';
             /*拼接页面*/
             $("#home_ul").html(homeLi);
@@ -266,7 +291,7 @@
             });*/
             /* 2. 点击小方框就能跳转页面, 而不是数字*/
             /* 3. 全部完成后, 跳转到页面最上端.*/
-            window.scrollTo(0, 0);
+            // window.scrollTo(0, 0);
         });
     }
 </script>

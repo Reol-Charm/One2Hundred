@@ -1,17 +1,28 @@
+<script src="js/getParameter.js"></script>
+<script src="js/jquery-3.3.1.js"></script>
 <script>
 
     $(function () {
+        var cid = getParameter("cid");
+        var currentPage = getParameter("currentPage");
+        var rname;
+        // alert(rname);
+
+        /*------------------------分类导航栏---------------------------*/
+
         /*页面加载之后, 异步请求 header 分类内容, 在页面展示*/
         /*发送异步请求*/
         $.get("category/listCategory", {}, function (categories) {
+            /*[B]---全局变量进行赋值---*/
+            rname = $("#search_input").val();
             /*拼接标签*/
             var ul1st = '<li class="nav-active"><a href="index.html">首页</a></li>';
             /*对异步获取的资源的操作（json）：遍历 json （数组格式）*/
             /*[{"cid":8,"cname":"全球自由行"},{"cid":5,"cname":"国内游"},{"cid":4,"cname":"处境游"},{"cid":7,"cname":"抱团定制"},{"cid":6,"cname":"港澳游"},{"cid":2,"cname":"酒店"},{"cid":1,"cname":"门票"},{"cid":3,"cname":"香港车票"}]*/
             /*for (var i = 0; i < categories.length; i++) {*/
             $(categories).each(function (i, n) {
-                /*传递*/
-                var li = '<li><a href="route_list.html?cid=' + n.cid + '">' + n.cname + '</a></li>';
+                /*向 route_list.html 页面传递参数  */
+                var li = '<li><a href="route_list.html?cid=' + n.cid + '&rname=' + rname + '">' + n.cname + '</a></li>';
                 ul1st += li;
             });
             ul1st += '<li><a href="favoriterank.html">收藏排行榜</a></li>';
@@ -19,7 +30,19 @@
             /*究极失误::少写了个 `#`, 导致选择器失效*/
             $("#nav_ul").html(ul1st);
         });
+
+        /*------------------------搜索框---------------------------*/
+
+        $("#sc_but").click(function () {
+            //不需要在这里异步请求.
+            // $.get("route/getPageRouteInfo", {'cid': cid, "currentPage": currentPage /*'rname': rname*/}, function (pb) {
+            /*----[B]----查询按钮点击 --> 页面跳转进行传参.-----------*/
+            var rname = $("#search_input").val();
+            location.href = 'route_list.html?cid=' + cid + '&rname=' + rname + '&currentPage=' + currentPage + '';
+            // });
+        });
     });
+
 
 </script>
 <!-- 头部 start -->
@@ -47,8 +70,9 @@
                 <a href="/"><img src="images/logo.jpg" alt=""></a>
             </div>
             <div class="search">
-                <input name="" type="text" placeholder="请输入路线名称" class="search_input" autocomplete="off">
-                <a href="javascript:;" class="search-button">搜索</a>
+                <input name="" type="text" placeholder="请输入路线名称" id="search_input" class="search_input"
+                       autocomplete="off">
+                <a id="sc_but" href="javascript:void(0);" class="search-button">搜索</a>
             </div>
             <div class="hottel">
                 <div class="hot_pic">
@@ -70,10 +94,6 @@
         <!--<li id="nav_li"><a href="route_list.html"></a></li>-->
         <!--<li><a href="route_list.html">酒店</a></li>
         <li><a href="route_list.html">香港车票</a></li>
-        <li><a href="route_list.html">出境游</a></li>
-        <li><a href="route_list.html">国内游</a></li>
-        <li><a href="route_list.html">港澳游</a></li>
-        <li><a href="route_list.html">抱团定制</a></li>
         <li><a href="route_list.html">全球自由行</a></li>
         <li><a href="favoriterank.html">收藏排行榜</a></li>-->
     </ul>
