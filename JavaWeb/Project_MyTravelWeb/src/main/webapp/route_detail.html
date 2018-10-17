@@ -7,142 +7,253 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/route-detail.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/getParameter.js"></script>
+    <script>
+        /*route.list 页面传递 rid 参数过来, 向后台提交的参数.*/
+        $(function () {
+            /*获取传递过来的 rid 参数*/
+            var ridStr = getParameter("rid");
+            /*直接发送异步请求, 请求true资源.*/
+            $.get("./route/showRouteDetail", {"rid": ridStr}, function (routeBean) {
+                /* then do the back end works~
+                json format:
+
+                {
+    "rid": 5,
+    "rname": "梅州 双飞3天2晚 自由行套票【含广州直飞梅州早对晚含税往返机票+2晚梅州市区酒店】",
+    "price": 999,
+    "routeIntroduce": "含广州直飞梅州早对晚含税往返机票+2晚梅州市区酒店！",
+    "rflag": "1",
+    "rdate": "2018-02-09 01:13:17",
+    "isThemeTour": "0",
+    "count": 0,
+    "cid": 5,
+    "rimage": "img/product/small/m3ac1aa10b493b4b22221e19ba39f7e6a1.jpg",
+    "sid": 1,
+    "sourceId": "21917",
+    "category": null,
+    "seller": {
+        "sid": 1,
+        "sname": "黑马程序员",
+        "consphone": "12345678901",
+        "address": "传智播客javaEE学院"
+    },
+    "routeImgList": [
+        {
+            "rgid": 8,
+            "rid": 5,
+            "bigPic": "img/product/size4/m4ac1aa10b493b4b22221e19ba39f7e6a1.jpg",
+            "smallPic": "img/product/size2/m2ac1aa10b493b4b22221e19ba39f7e6a1.jpg"
+        },
+        {
+            "rgid": 9,
+            "rid": 5,
+            "bigPic": "img/product/size4/m4a3f85cf3b49c183ea3cc5cd4b0424532.jpg",
+            "smallPic": "img/product/size2/m2a3f85cf3b49c183ea3cc5cd4b0424532.jpg"
+        },
+        {
+            "rgid": 10,
+            "rid": 5,
+            "bigPic": "img/product/size4/m41a8a1be2a84a99147278e5cf8ed432d0.jpg",
+            "smallPic": "img/product/size2/m21a8a1be2a84a99147278e5cf8ed432d0.jpg"
+        },
+        {
+            "rgid": 11,
+            "rid": 5,
+            "bigPic": "img/product/size4/m40c291dba8e45063fbfcecea64b3e873f.jpg",
+            "smallPic": "img/product/size2/m20c291dba8e45063fbfcecea64b3e873f.jpg"
+        }
+    ]
+}
+                */
+                var dl = $("#prosum_left");
+                var dt = "";
+                var imgs = routeBean["routeImgList"];
+                $(imgs).each(function (i, n) {
+                    // $("#prosum_left #big_img").prop("src", n.bigPic);
+                    /* 在此循环下, 所有的图片就都是一个了.囧
+                    $("[class$='little_img']").attr("data-bigpic", n.bigPic);
+                    $("[class$='little_img']>img").prop("src", n.smallPic);*/
+                    /*
+                    测试
+                    var big_pic = $(this).data('bigpic');
+                    $('.big_img').attr('src', big_pic);
+                    $('dd a')*/
+                    dt += '<dt>' +
+                        '                <img id="big_img" alt="" class="big_img"' +
+                        '                     src="' + n.bigPic + '">' +
+                        '            </dt>';
+                    dt += '<dd>' +
+                        '                <a class="up_img up_img_disable"></a>';
+                    dt += '<a title="" class="little_img"' +
+                        '                   data-bigpic="' + n.smallPic + '">' +
+                        '                    <img src="' + n.smallPic + '">' +
+                        '                </a>';
+                    dt +=' <a class="down_img down_img_disable" style="margin-bottom: 0;"></a>' +
+                        '            </dd>' +
+                        '        </dl>';
+                });
+                dl.html(dt);
+            });
+        });
+
+    </script>
 </head>
 
 <body>
 <!--引入头部-->
 <div id="header"></div>
-    <!-- 详情 start -->   
-    <div class="wrap">
-        <div class="bread_box">
-            <a href="/">首页</a>
-            <span> &gt;</span>
-            <a href="#">国内游</a><span> &gt;</span>
-            <a href="#">全国-曼谷6-7天自由行 泰国出境旅游 特价往返机票自由行二次确认</a>
-        </div>
-        <div class="prosum_box">
-            <dl class="prosum_left">
-                <dt>
-                    <img alt="" class="big_img" src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m49788843d72171643297ccc033d9288ee.jpg">
-                </dt>
-                <dd>
-                    <a class="up_img up_img_disable"></a>
-                    <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m40920d0669855e745d97f9ad1df966ebb.jpg">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m20920d0669855e745d97f9ad1df966ebb.jpg">
-                    </a>
-                    <a title="" class="little_img cur_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m49788843d72171643297ccc033d9288ee.jpg">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m29788843d72171643297ccc033d9288ee.jpg">
-                    </a>
-                    <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m4531a8dbceefa2c44e6d0e35627cd2689.jpg">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m2531a8dbceefa2c44e6d0e35627cd2689.jpg">
-                    </a>
-                    <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m46d8cb900e9f6c0a762aca19eae40c00c.jpg">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m26d8cb900e9f6c0a762aca19eae40c00c.jpg">
-                    </a>
-                    <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m45ea00f6eba562a767b5095bbf8cffe07.jpg" style="display:none;">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m25ea00f6eba562a767b5095bbf8cffe07.jpg">
-                    </a>
-                    <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m4265ec488cd1bc7ce749bc8c9b34b87bc.jpg" style="display:none;">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m2265ec488cd1bc7ce749bc8c9b34b87bc.jpg">
-                    </a>
-                    <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m4e7e964909d7dd1a9f6e5494d4dc0c847.jpg" style="display:none;">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m2e7e964909d7dd1a9f6e5494d4dc0c847.jpg">
-                    </a>
-                    <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m467db00e1b76718fab0fe8b96e10f4d35.jpg" style="display:none;">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m267db00e1b76718fab0fe8b96e10f4d35.jpg">
-                    </a>
-                    <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m487bbbc6e43eba6aa6a36cc1a182f7a20.jpg" style="display:none;">
-                        <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m287bbbc6e43eba6aa6a36cc1a182f7a20.jpg">
-                    </a>
-                    <a class="down_img down_img_disable" style="margin-bottom: 0;"></a>
-                </dd>
-            </dl>
-            <div class="prosum_right">
-               <p class="pros_title">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往返机票自由行二次确认</p>
-                <p class="hot">1-2月出发，网付立享￥1099/2人起！爆款位置有限，抢完即止！</p>
-                <div class="pros_other">
-                    <p>经营商家  ：黑马国旅</p>
-                    <p>咨询电话 : 400-618-9090</p>
-                    <p>地址 ： 传智播客黑马程序员</p>  
-                </div>
-                <div class="pros_price">
-                    <p class="price"><strong>¥2699.00</strong><span>起</span></p>
-                    <p class="collect">
-                        <a class="btn"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
+<!-- 详情 start -->
+<div class="wrap">
+    <div class="bread_box">
+        <a href="/">首页</a>
+        <span> &gt;</span>
+        <a href="#">国内游</a><span> &gt;</span>
+        <a href="#">全国-曼谷6-7天自由行 泰国出境旅游 特价往返机票自由行二次确认</a>
+    </div>
+    <div class="prosum_box">
+        <dl id="prosum_left" class="prosum_left">
+            <!--<dt>
+                <img id="big_img" alt="" class="big_img"
+                     src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m49788843d72171643297ccc033d9288ee.jpg">
+            </dt>
+            <dd>
+                <a class="up_img up_img_disable"></a>
+                <a title="" class="little_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m40920d0669855e745d97f9ad1df966ebb.jpg">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m20920d0669855e745d97f9ad1df966ebb.jpg">
+                </a>
+                <a title="" class="little_img cur_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m49788843d72171643297ccc033d9288ee.jpg">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m29788843d72171643297ccc033d9288ee.jpg">
+                </a>
+                <a title="" class="little_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m4531a8dbceefa2c44e6d0e35627cd2689.jpg">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m2531a8dbceefa2c44e6d0e35627cd2689.jpg">
+                </a>
+                <a title="" class="little_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m46d8cb900e9f6c0a762aca19eae40c00c.jpg">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m26d8cb900e9f6c0a762aca19eae40c00c.jpg">
+                </a>
+                <a title="" class="little_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m45ea00f6eba562a767b5095bbf8cffe07.jpg"
+                   style="display:none;">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m25ea00f6eba562a767b5095bbf8cffe07.jpg">
+                </a>
+                <a title="" class="little_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m4265ec488cd1bc7ce749bc8c9b34b87bc.jpg"
+                   style="display:none;">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m2265ec488cd1bc7ce749bc8c9b34b87bc.jpg">
+                </a>
+                <a title="" class="little_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m4e7e964909d7dd1a9f6e5494d4dc0c847.jpg"
+                   style="display:none;">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m2e7e964909d7dd1a9f6e5494d4dc0c847.jpg">
+                </a>
+                <a title="" class="little_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m467db00e1b76718fab0fe8b96e10f4d35.jpg"
+                   style="display:none;">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m267db00e1b76718fab0fe8b96e10f4d35.jpg">
+                </a>
+                <a title="" class="little_img"
+                   data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m487bbbc6e43eba6aa6a36cc1a182f7a20.jpg"
+                   style="display:none;">
+                    <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m287bbbc6e43eba6aa6a36cc1a182f7a20.jpg">
+                </a>
+                <a class="down_img down_img_disable" style="margin-bottom: 0;"></a>
+            </dd>-->
+        </dl>
+        <div class="prosum_right">
+            <p id="pros_title" class="pros_title">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往返机票自由行二次确认</p>
+            <p id="hot" class="hot">1-2月出发，网付立享￥1099/2人起！爆款位置有限，抢完即止！</p>
+            <div id="pros_other" class="pros_other">
+                <p>经营商家 ：黑马国旅</p>
+                <p>咨询电话 : 400-618-9090</p>
+                <p>地址 ： 传智播客黑马程序员</p>
+            </div>
+            <div class="pros_price">
+                <p class="price"><strong>¥2699.00</strong><span>起</span></p>
+                <p class="collect">
+                    <a class="btn"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
 
-                        <a  class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
-                        <span>已收藏100次</span>
-                    </p>
-                </div>        
+                    <a class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
+                    <span>已收藏100次</span>
+                </p>
             </div>
         </div>
-        <div class="you_need_konw">
-            <span>旅游须知</span>
-            <div class="notice">
-                <p>1、旅行社已投保旅行社责任险。建议游客购买旅游意外保险 <br>
+    </div>
+    <div class="you_need_konw">
+        <span>旅游须知</span>
+        <div class="notice">
+            <p>1、旅行社已投保旅行社责任险。建议游客购买旅游意外保险 <br>
 
-                <p>2、旅游者参加打猎、潜水、海边游泳、漂流、滑水、滑雪、滑草、蹦极、跳伞、滑翔、乘热气球、骑马、赛车、攀岩、水疗、水上飞机等属于高风险性游乐项目的，敬请旅游者务必在参加前充分了解项目的安全须知并确保身体状况能适应此类活动；如旅游者不具备较好的身体条件及技能，可能会造成身体伤害。</p>
+            <p>
+                2、旅游者参加打猎、潜水、海边游泳、漂流、滑水、滑雪、滑草、蹦极、跳伞、滑翔、乘热气球、骑马、赛车、攀岩、水疗、水上飞机等属于高风险性游乐项目的，敬请旅游者务必在参加前充分了解项目的安全须知并确保身体状况能适应此类活动；如旅游者不具备较好的身体条件及技能，可能会造成身体伤害。</p>
 
-                <p>3、参加出海活动时，请务必穿着救生设备。参加水上活动应注意自己的身体状况，有心脏病、冠心病、高血压、感冒、发烧和饮酒及餐后不可以参加水上活动及潜水。在海里活动时，严禁触摸海洋中各种鱼类，水母，海胆，珊瑚等海洋生物，避免被其蛰伤。老人和小孩必须有成年人陪同才能参加合适的水上活动。在海边游玩时，注意保管好随身携带的贵重物品。</p>
+            <p>
+                3、参加出海活动时，请务必穿着救生设备。参加水上活动应注意自己的身体状况，有心脏病、冠心病、高血压、感冒、发烧和饮酒及餐后不可以参加水上活动及潜水。在海里活动时，严禁触摸海洋中各种鱼类，水母，海胆，珊瑚等海洋生物，避免被其蛰伤。老人和小孩必须有成年人陪同才能参加合适的水上活动。在海边游玩时，注意保管好随身携带的贵重物品。</p>
 
-                <p>4、根据中国海关总署的规定，旅客在境外购买的物品，在进入中国海关时可能需要征收关税。详细内容见《中华人民共和国海关总署公告2010年第54号文件》。</p>
+            <p>4、根据中国海关总署的规定，旅客在境外购买的物品，在进入中国海关时可能需要征收关税。详细内容见《中华人民共和国海关总署公告2010年第54号文件》。</p>
 
-                <p>5、建议出发时行李托运，贵重物品、常用物品、常用药品、御寒衣物等请随身携带，尽量不要托运。行李延误属于不可抗力因素，我司将全力协助客人跟进后续工作，但我司对此不承担任何责任。</p>
-                <p>1、旅行社已投保旅行社责任险。建议游客购买旅游意外保险 <br>
+            <p>5、建议出发时行李托运，贵重物品、常用物品、常用药品、御寒衣物等请随身携带，尽量不要托运。行李延误属于不可抗力因素，我司将全力协助客人跟进后续工作，但我司对此不承担任何责任。</p>
+            <p>1、旅行社已投保旅行社责任险。建议游客购买旅游意外保险 <br>
 
-                <p>2、旅游者参加打猎、潜水、海边游泳、漂流、滑水、滑雪、滑草、蹦极、跳伞、滑翔、乘热气球、骑马、赛车、攀岩、水疗、水上飞机等属于高风险性游乐项目的，敬请旅游者务必在参加前充分了解项目的安全须知并确保身体状况能适应此类活动；如旅游者不具备较好的身体条件及技能，可能会造成身体伤害。</p>
+            <p>
+                2、旅游者参加打猎、潜水、海边游泳、漂流、滑水、滑雪、滑草、蹦极、跳伞、滑翔、乘热气球、骑马、赛车、攀岩、水疗、水上飞机等属于高风险性游乐项目的，敬请旅游者务必在参加前充分了解项目的安全须知并确保身体状况能适应此类活动；如旅游者不具备较好的身体条件及技能，可能会造成身体伤害。</p>
 
-                <p>3、参加出海活动时，请务必穿着救生设备。参加水上活动应注意自己的身体状况，有心脏病、冠心病、高血压、感冒、发烧和饮酒及餐后不可以参加水上活动及潜水。在海里活动时，严禁触摸海洋中各种鱼类，水母，海胆，珊瑚等海洋生物，避免被其蛰伤。老人和小孩必须有成年人陪同才能参加合适的水上活动。在海边游玩时，注意保管好随身携带的贵重物品。</p>
+            <p>
+                3、参加出海活动时，请务必穿着救生设备。参加水上活动应注意自己的身体状况，有心脏病、冠心病、高血压、感冒、发烧和饮酒及餐后不可以参加水上活动及潜水。在海里活动时，严禁触摸海洋中各种鱼类，水母，海胆，珊瑚等海洋生物，避免被其蛰伤。老人和小孩必须有成年人陪同才能参加合适的水上活动。在海边游玩时，注意保管好随身携带的贵重物品。</p>
 
-                <p>4、根据中国海关总署的规定，旅客在境外购买的物品，在进入中国海关时可能需要征收关税。详细内容见《中华人民共和国海关总署公告2010年第54号文件》。</p>
+            <p>4、根据中国海关总署的规定，旅客在境外购买的物品，在进入中国海关时可能需要征收关税。详细内容见《中华人民共和国海关总署公告2010年第54号文件》。</p>
 
-                <p>5、建议出发时行李托运，贵重物品、常用物品、常用药品、御寒衣物等请随身携带，尽量不要托运。行李延误属于不可抗力因素，我司将全力协助客人跟进后续工作，但我司对此不承担任何责任。</p>
-            </div>           
+            <p>5、建议出发时行李托运，贵重物品、常用物品、常用药品、御寒衣物等请随身携带，尽量不要托运。行李延误属于不可抗力因素，我司将全力协助客人跟进后续工作，但我司对此不承担任何责任。</p>
         </div>
     </div>
-    <!-- 详情 end -->
+</div>
+<!-- 详情 end -->
 
-    <!--引入头部-->
-    <div id="footer"></div>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-3.3.1.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <!--导入布局js，共享header和footer-->
-    <script type="text/javascript" src="js/include.js"></script>
-    <script>
-    $(document).ready(function() {
+<!--引入头部-->
+<div id="footer"></div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery-3.3.1.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<!--导入布局js，共享header和footer-->
+<script type="text/javascript" src="js/include.js"></script>
+<script>
+    $(document).ready(function () {
         //焦点图效果
         //点击图片切换图片
-        $('.little_img').on('mousemove', function() {
+        $('.little_img').on('mousemove', function () {
             $('.little_img').removeClass('cur_img');
             var big_pic = $(this).data('bigpic');
             $('.big_img').attr('src', big_pic);
             $(this).addClass('cur_img');
         });
-           //上下切换
+        //上下切换
         var picindex = 0;
         var nextindex = 4;
-        $('.down_img').on('click',function(){
+        $('.down_img').on('click', function () {
             var num = $('.little_img').length;
-            if((nextindex + 1) <= num){
-                $('.little_img:eq('+picindex+')').hide();
-                $('.little_img:eq('+nextindex+')').show();
+            if ((nextindex + 1) <= num) {
+                $('.little_img:eq(' + picindex + ')').hide();
+                $('.little_img:eq(' + nextindex + ')').show();
                 picindex = picindex + 1;
                 nextindex = nextindex + 1;
             }
         });
-        $('.up_img').on('click',function(){
+        $('.up_img').on('click', function () {
             var num = $('.little_img').length;
-            if(picindex > 0){
-                $('.little_img:eq('+(nextindex-1)+')').hide();
-                $('.little_img:eq('+(picindex-1)+')').show();
+            if (picindex > 0) {
+                $('.little_img:eq(' + (nextindex - 1) + ')').hide();
+                $('.little_img:eq(' + (picindex - 1) + ')').show();
                 picindex = picindex - 1;
                 nextindex = nextindex - 1;
             }
         });
         //自动播放
-        // var timer = setInterval("auto_play()", 5000);
+        var timer = setInterval("auto_play()", 5000);
     });
 
     //自动轮播方法
@@ -167,7 +278,7 @@
             $('.big_img').attr('src', big_pic);
         }
     }
-    </script>
+</script>
 </body>
 
 </html>

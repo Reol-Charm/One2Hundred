@@ -8,6 +8,7 @@ package me.reolcharm.travel.dao;
 
 import me.reolcharm.travel.domain.PageBean;
 import me.reolcharm.travel.domain.Route;
+import me.reolcharm.travel.domain.RouteImg;
 
 import java.util.List;
 
@@ -28,4 +29,8 @@ public interface RouteDao {
      * @return
      */
     int findTotalSize(int cid, String rname);
+
+    Route getRouteInfo(int rid);
+
+    List<RouteImg> getImgList(int rid);
 }

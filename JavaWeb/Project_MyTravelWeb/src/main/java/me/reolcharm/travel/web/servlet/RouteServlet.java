@@ -69,6 +69,26 @@ public class RouteServlet extends BaseServlet {
     }
 
     /**
+     * @Param: [request, response]
+     * @Return: void
+     * @Author: Reolcharm
+     * @Date: 2018/10/17-19:42
+     * @Description: 处理展示线路详情功能
+     */
+    public void showRouteDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String ridStr = request.getParameter("rid");
+        int rid = 1;
+        rid = strNum2Int(ridStr, rid);
+        RouteService service = new RouteServiceImpl();
+        Route route = service.getRouteBean(rid);
+        String routeBean = writerAsString(route, response);
+
+        System.out.println("routeBean = " + routeBean);
+        System.out.println("--------------------------------------------");
+        response.getWriter().write(routeBean);
+    }
+
+    /**
      * @param str        待转换的字符串
      * @param defaultNum pagebean 中的默认值.
      * @return 转换好的 int 值.

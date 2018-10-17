@@ -8,7 +8,10 @@ package me.reolcharm.travel.dao.impl;
 
 import me.reolcharm.travel.dao.RouteDao;
 import me.reolcharm.travel.domain.Route;
+import me.reolcharm.travel.domain.RouteImg;
+import me.reolcharm.travel.domain.Seller;
 import me.reolcharm.travel.util.JdbcUtils;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -29,7 +32,6 @@ public class RouteDaoImpl implements RouteDao {
     public List<Route> findPerPageData(int cid, int startIndex, int pageSize, String rname) {
         /*定义 sql 模板*/
         String sql = "select * from tab_route where 1 = 1 ";
-
         /*定义 StringBuilder 容器*/
         StringBuilder sb = new StringBuilder(sql);
         /*定义 条件集合 泛型的妙用*/
@@ -92,5 +94,56 @@ public class RouteDaoImpl implements RouteDao {
         sql = sb.toString();
         /*模糊查询, 拼接字符串*/
         return template.queryForObject(sql, Integer.class, cond.toArray());
+    }
+
+    /**
+     * @Param: [rid]
+     * @Return: me.reolcharm.travel.domain.Route
+     * @Author: Reolcharm
+     * @Date: 2018/10/17-20:02
+     * @Description: 两表查询, 获取到详情页面的文字信息
+     */
+    @Override
+    public Route getRouteInfo(int rid) {
+        String sql = "SELECT * FROM" +
+                " tab_route t1, tab_seller t2 " +
+                "WHERE t1.sid = t2.sid AND rid = ?";
+
+        Route route;
+        try {
+            /*技巧*/
+            route = template.queryForObject(sql,
+                    new BeanPropertyRowMapper<Route>(Route.class),
+                    rid);
+            Seller seller = template.queryForObject(sql,
+                    new BeanPropertyRowMapper<Seller>(Seller.class),
+                    rid);
+            /* 多次查询封装成一个 Bean */
+            route.setSeller(seller);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return route;
+    }
+
+    /**
+     * @Param: [rid]
+     * @Return: java.util.List<me.reolcharm.travel.domain.RouteImg>
+     * @Author: Reolcharm
+     * @Date: 2018/10/17-20:22
+     * @Description: 获取详情页面的图片信息集合
+     */
+    @Override
+    public List<RouteImg> getImgList(int rid) {
+        String sql = "SELECT * FROM tab_route_img WHERE rid = ?";
+        try {
+            return template.query(sql,
+                    new BeanPropertyRowMapper<RouteImg>(RouteImg.class),
+                    rid);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

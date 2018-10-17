@@ -189,7 +189,8 @@
                     '                                <span>' + n.price + '</span>\n' +
                     '                                <span>起</span>\n' +
                     '                            </p>\n' +
-                    '                            <p><a href="route_detail.html">查看详情</a></p>\n' +
+                    /*给`查看详情 `传递 rid*/
+                    '                            <p><a id="2detail" href="route_detail.html?rid=' + n.rid + '">查看详情</a></p>\n' +
                     '                        </div>' +
                     '</li>';
             });

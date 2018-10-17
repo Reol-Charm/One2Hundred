@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
         Jedis jedis = JedisUtil.getJedis();
         /*去 Redis 中查找数据*/
         Set<Tuple> tupleSet = jedis.zrangeWithScores("category", 0, -1);
-        List<Category> categoryList = null;
+        List<Category> categoryList = new ArrayList<>();
         /*感动死了, 原来是写错了: tupleSet.size() == 0 && tupleSet == null*/
         /*redis 中没有数据, 说明是第一次访问, 去 MySQL 中查*/
         if (tupleSet.size() == 0 || tupleSet == null) {
@@ -49,6 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
             /*将排序好的 json 数据返回给前台, 保证每次都是排序好的分类条.
             和从 MySQL 查出来的是同一个 list 集合, 对其进行了排序*/
             /* BUG: [{"cid":8,"cname":"全球自由行"},{"cid":5,"cname":"国内游"},{"cid":4,"cname":"处境游"},{"cid":7,"cname":"抱团定制"},{"cid":6,"cname":"港澳游"},{"cid":2,"cname":"酒店"},{"cid":1,"cname":"门票"},{"cid":3,"cname":"香港车票"},{"cid":1,"cname":"门票"},{"cid":2,"cname":"酒店"},{"cid":3,"cname":"香港车票"},{"cid":4,"cname":"处境游"},{"cid":5,"cname":"国内游"},{"cid":6,"cname":"港澳游"},{"cid":7,"cname":"抱团定制"},{"cid":8,"cname":"全球自由行"}]*/
+            /*指向新的引用(容器)*/
             categoryList = new ArrayList<Category>();
             return storeCategory(categoryTuple, categoryList);
         }
@@ -60,6 +61,8 @@ public class CategoryServiceImpl implements CategoryService {
             System.out.println("正在从 Redis 中查询数据...");
             categoryList = new ArrayList<Category>();
             return storeCategory(tupleSet, categoryList);
+            /*将 categoryList 作为成员变量, Redis 中有数据，但是 categoryList 本身为 null*/
+//            return categoryList;
         }
         return categoryList;
     }

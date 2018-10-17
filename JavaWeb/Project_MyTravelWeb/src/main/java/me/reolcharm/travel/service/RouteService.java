@@ -19,4 +19,6 @@ public interface RouteService {
      * @return
      */
     PageBean<Route> getPageBean(int cid, int currentPage, int pageSize, String rname);
+
+    Route getRouteBean(int rid);
 }
