@@ -207,7 +207,7 @@
             if (prePageNum <= 1) {
                 prePageNum = 1;
                 /*移除点击*/
-                $("#previousLi").removeAttr("onclick");
+                // $("#previousLi").removeAttr("onclick");
 
             }
             /*下一页*/
@@ -215,7 +215,7 @@
             var nextPageNum = pageBean["currentPage"] + 1;
             if (nextPageNum >= pageBean.totalPage) {
                 nextPageNum = pageBean.totalPage;
-                $("#nextLi").removeAttr("onclick");
+                // $("#nextLi").removeAttr("onclick");
             }
 
             /*通过控制页码数字, 来控制分页条*/
