@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--3. 全路径下的接口-->
+<mapper namespace="me.reolcharm.mybatis01_foundation.dao.UserDao">
+    <!--4. id接口方法名称, 方法返回类型-->
+    <select id="findAll" resultType="me.reolcharm.mybatis01_foundation.domain.User">
+        /* 5. sql 语句 */
+        select * from user
+    </select>
+</mapper>
