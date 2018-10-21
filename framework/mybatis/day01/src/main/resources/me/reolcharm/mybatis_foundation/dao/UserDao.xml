@@ -2,11 +2,43 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <!--3. 全路径下的接口-->
 <mapper namespace="me.reolcharm.mybatis01_foundation.dao.UserDao">
-    <!--4. id接口方法名称, 方法返回类型-->
+    <!--4. id接口方法名称, 方法返回类型  research -->
     <select id="findAll" resultType="me.reolcharm.mybatis01_foundation.domain.User">
-        /* 5. sql 语句 */
-        select * from user
+        <!--5. sql 语句  -->
+        select *
+        from user
+    </select>
+
+    <!-- day02-2.定义 sql 语句 Create -->
+    <insert id="addUser" parameterType="me.reolcharm.mybatis01_foundation.domain.User">
+        <!--获取主键的值, 譬如下了订单之后, 会将订单号返回给用户, 就是此主键id-->
+        <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+
+        insert into user (username, birthday, sex, address)
+        values (#{username}, #{birthday}, #{sex}, #{address})
+
+    </insert>
+
+    <!-- day02-2.定义 sql 语句 >> update -->
+    <update id="updateUser" parameterType="me.reolcharm.mybatis01_foundation.domain.User">
+        UPDATE USER
+        SET username = #{username},
+            birthday = #{birthday},
+            sex      = #{sex},
+            address  = #{address}
+        WHERE id = #{id};
+    </update>
+
+    <!-- day02-3 模糊查询--><!---->
+    <select id="findInfoByName" parameterType="string" resultType="me.reolcharm.mybatis01_foundation.domain.User">
+        <!--方式一: #{} 表达式, 要求: 传入条件时, 加上 %%符号 -->
+        <!--SELECT * FROM USER WHERE username LIKE #{username};-->
+        <!--方式二: ${value} 表达式, 占位符, 必须是该格式-->
+        SELECT * FROM USER WHERE username LIKE '%${value}%';
     </select>
 </mapper>
