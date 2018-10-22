@@ -14,11 +14,14 @@
 
     <!-- day02-2.定义 sql 语句 Create -->
     <insert id="addUser" parameterType="me.reolcharm.mybatis01_foundation.domain.User">
-        <!--获取主键的值, 譬如下了订单之后, 会将订单号返回给用户, 就是此主键id-->
+        <!--获取主键的值,可直接打印出来见测试类; 譬如下了订单之后, 会将订单号返回给用户, 就是此主键id-->
         <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
             select last_insert_id();
         </selectKey>
-
+        <!-- uuid() 的写法-->
+        <selectKey keyColumn="uuid" keyProperty="uuid" resultType="string" order="BEFORE">
+            select last_insert_id();
+        </selectKey>
         insert into user (username, birthday, sex, address)
         values (#{username}, #{birthday}, #{sex}, #{address})
 
@@ -41,4 +44,13 @@
         <!--方式二: ${value} 表达式, 占位符, 必须是该格式-->
         SELECT * FROM USER WHERE username LIKE '%${value}%';
     </select>
+    <!-- day02-4 条件封装到 pojo 类中-->
+    <select id="findInfoByPojo" parameterType="me.reolcharm.mybatis01_foundation.domain.ConditionPojo"
+            resultType="me.reolcharm.mybatis01_foundation.domain.User">
+        SELECT *
+        FROM USER
+        WHERE username LIKE #{user.username}
+          AND sex = #{user.sex}
+    </select>
+    <!--day02-5 自定义结果集 -->
 </mapper>

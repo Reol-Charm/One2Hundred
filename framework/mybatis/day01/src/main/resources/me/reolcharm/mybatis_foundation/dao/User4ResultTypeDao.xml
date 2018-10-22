@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--3. 全路径下的接口-->
+<mapper namespace="me.reolcharm.mybatis01_foundation.dao.User4ResultTypeDao">
+
+    <!--day02-5 自定义结果集 -->
+    <resultMap id="user4ResultTypeMap" type="me.reolcharm.mybatis01_foundation.domain.User4ResultType">
+        <!--db 中主键对应的 pojo 属性-->
+        <id column="id" property="userId"/>
+        <!-- DB 查询到的结果集中其他的列, 所对应的 pojo 属性-->
+        <result column="username" property="userName"/>
+        <result column="sex" property="userSex"/>
+        <result column="address" property="userAddress"/>
+        <!--少写一个, bindingException-->
+        <result column="birthday" property="userBirthday"/>
+    </resultMap>
+    <!--BindingException-->
+    <select id="findInfoByPojo" resultMap="user4ResultTypeMap"
+            parameterType="me.reolcharm.mybatis01_foundation.domain.ConditionPojo">
+        SELECT *
+        FROM USER
+        WHERE username LIKE #{user4ResultType.userName}
+          AND sex = #{user4ResultType.userSex}
+    </select>
+</mapper>

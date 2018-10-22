@@ -43,6 +43,13 @@ public interface UserDao {
 
     /*----------------------- 深入 ParameterType --> 即条件封装至 POJO 类中------------------------------*/
 
+    /**
+     * @Param [pojo]
+     * @Return java.util.List<me.reolcharm.mybatis01_foundation.domain.User>
+     * @Author Reolcharm
+     * @Date 2018/10/22-9:17
+     * @Description 根据多条件查询(封装在 pojo 中)
+     */
     List<User> findInfoByPojo(ConditionPojo pojo);
 
 }

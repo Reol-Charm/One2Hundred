@@ -21,6 +21,8 @@
     全类名一致.
     -->
     <mappers>
-        <mapper resource="me/reolcharm/mybatis_foundation/dao/UserDao.xml"/>
+        <mapper resource="me/reolcharm/mybatis_foundation/dao/User4ResultTypeDao.xml"/>
+        <!--批量配置映射-->
+        <!--<package name="me.reolcharm.mybatis01_foundation.dao"/>-->
     </mappers>
 </configuration>

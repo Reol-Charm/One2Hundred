@@ -1,6 +1,8 @@
+import me.reolcharm.mybatis01_foundation.dao.User4ResultTypeDao;
 import me.reolcharm.mybatis01_foundation.dao.UserDao;
 import me.reolcharm.mybatis01_foundation.domain.ConditionPojo;
 import me.reolcharm.mybatis01_foundation.domain.User;
+import me.reolcharm.mybatis01_foundation.domain.User4ResultType;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -24,6 +26,8 @@ public class HelloMybatisTest {
     private InputStream inputStream;
     private SqlSession sqlSession;
     private UserDao userDao;
+    /* TEST resultType*/
+    private User4ResultTypeDao user4ResultTypeDao;
 
     /**
      * @Param: []
@@ -43,8 +47,10 @@ public class HelloMybatisTest {
         SqlSessionFactory factory = builder.build(inputStream);
         /*设计图纸*/
         sqlSession = factory.openSession();
-        /*映射实现类对象*/
-        userDao = sqlSession.getMapper(UserDao.class);
+        /*映射实现类对象*//* BindingException  */
+//        userDao = sqlSession.getMapper(UserDao.class);
+        /* test resultType */
+        user4ResultTypeDao = sqlSession.getMapper(User4ResultTypeDao.class);
     }
 
     /**
@@ -97,6 +103,10 @@ public class HelloMybatisTest {
         /*aBoolean = true*/
         Boolean aBoolean = userDao.addUser(user);
         System.out.println("aBoolean = " + aBoolean);
+        System.out.println("-----------------------");
+//        user = null
+//        user = 56
+        System.out.println("userId = " + user.getId());
     }
 
     /**
@@ -136,9 +146,39 @@ public class HelloMybatisTest {
 
     /*----------------------- 深入 ParameterType --> 即条件封装至 POJO 类中------------------------------*/
 
+    /**
+     * @Param []
+     * @Return void
+     * @Author Reolcharm
+     * @Date 2018/10/21-23:50
+     * @Description
+     */
+    @Test
     public void findInfoByPojoTest() {
-
+        User user = new User();
+        user.setUsername("%王%");
+        user.setSex("女");
         ConditionPojo pojo = new ConditionPojo();
+        pojo.setUser(user);
+        List<User> infoByPojo = userDao.findInfoByPojo(pojo);
+        for (User user1 : infoByPojo) {
+            System.out.println("user1 = " + user1);
+        }
+    }
 
+    @Test
+    public void ResultTypeTest() {
+        /* setting condition */
+        User4ResultType user4ResultType = new User4ResultType();
+        user4ResultType.setUserName("%王%");
+        user4ResultType.setUserSex("女");
+        /*wrapper condition*/
+        ConditionPojo pojo = new ConditionPojo();
+        pojo.setUser4ResultType(user4ResultType);
+
+        List<User4ResultType> infoByPojo = user4ResultTypeDao.findInfoByPojo(pojo);
+        for (User4ResultType User4ResultType1 : infoByPojo) {
+            System.out.println("User4ResultType1 = " + User4ResultType1);
+        }
     }
 }
