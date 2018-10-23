@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--3. 全路径下的接口-->
+<mapper namespace="me.reolcharm.day02_DynamicSQL_TableRelation.mapper.UserMapper">
+
+    <sql id="defaultSql">
+        select *
+        from user
+    </sql>
+    <!--4. id接口方法名称, 方法返回类型  research -->
+    <select id="findAll" resultType="me.reolcharm.day02_DynamicSQL_TableRelation.domain.User">
+        <!--5. sql 语句  -->
+        <include refid="defaultSql"/>
+    </select>
+
+    <!-- day02-3 模糊查询--><!---->
+    <!--<select id="findInfoByConditions" parameterType="string"
+            resultType="me.reolcharm.day02_DynamicSQL_TableRelation.domain.User">
+        &lt;!&ndash;方式一: #{} 表达式, 要求: 传入条件时, 加上 %%符号 &ndash;&gt;
+        &lt;!&ndash;SELECT * FROM USER WHERE username LIKE #{username};&ndash;&gt;
+        &lt;!&ndash;方式二: ${value} 表达式, 占位符, 必须是该格式, 推荐第一种&ndash;&gt;
+        &lt;!&ndash; SELECT * FROM USER WHERE username LIKE '%${value}%';&ndash;&gt;
+        <include refid="defaultSql"/>
+        where 1 = 1
+        &lt;!&ndash;预编译结果: select * from user where 1 = 1 and address like ? and sex = ?&ndash;&gt;
+        <if test="address != null and address != '' ">
+            and address like #{address}
+        </if>
+        <if test="sex != null and sex !='' ">
+            and sex = #{sex}
+        </if>
+    </select>-->
+    <!-- 对 where 1=1 的优化, 说声再见.
+   直接生成: select * from user WHERE address like ? and sex = ? -->
+    <select id="findInfoByConditions" resultType="me.reolcharm.day02_DynamicSQL_TableRelation.domain.User">
+        <include refid="defaultSql"/>
+        <where>
+            <if test="address != null and address != '' ">
+                and address like #{address}
+            </if>
+            <if test="sex != null and sex !='' ">
+                and sex = #{sex}
+            </if>
+        </where>
+    </select>
+    <!--test <set> 标签 -->
+    <update id="updateInfoByDynamicSql" parameterType="me.reolcharm.day02_DynamicSQL_TableRelation.domain.User">
+        UPDATE `user`
+            <if test="username != null">
+                SET username = #{username},
+                Set sex = #{sex},
+                address = #{address}
+            </if>
+        WHERE id = #{id}
+    </update>
+    <!---->
+    <!---->
+    <!---->
+
+</mapper>
+
+        <!--  &lt;!&ndash; day02-2.定义 sql 语句 Create &ndash;&gt;
+          <insert id="addUser" parameterType="me.reolcharm.day02_DynamicSQL_TableRelation.domain.User">
+              &lt;!&ndash;获取主键的值,可直接打印出来见测试类; 譬如下了订单之后, 会将订单号返回给用户, 就是此主键id&ndash;&gt;
+              <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
+                  select last_insert_id();
+              </selectKey>
+              &lt;!&ndash; uuid() 的写法&ndash;&gt;
+              <selectKey keyColumn="uuid" keyProperty="uuid" resultType="string" order="BEFORE">
+                  select last_insert_id();
+              </selectKey>
+              insert into user (username, birthday, sex, address)
+              values (#{username}, #{birthday}, #{sex}, #{address})
+
+          </insert>-->
+
+
+
+
+

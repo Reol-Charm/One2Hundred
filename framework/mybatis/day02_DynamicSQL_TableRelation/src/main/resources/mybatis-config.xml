@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--1. -->
+    <environments default="mysql">
+        <environment id="mysql">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/framework_mybatis01"/>
+                <property name="username" value="root"/>
+                <property name="password" value="reol"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--
+    2.
+    配置映射文件路径
+    全类名一致.
+    -->
+    <mappers>
+        <!--<mapper resource="me/reolcharm/day02_DynamicSQL_TableRelationleRelation/mapper/User4ResultTypeDao.xml"/>-->
+        <!--批量配置映射-->
+        <package name="me.reolcharm.day02_DynamicSQL_TableRelation.mapper"/>
+    </mappers>
+</configuration>
