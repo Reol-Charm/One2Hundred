@@ -30,28 +30,16 @@ public class Client {
      * @param args
      */
     public static void main(String[] args) {
-//        //1.获取核心容器对象
-//        ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
-////        ApplicationContext ac = new FileSystemXmlApplicationContext("C:\\Users\\zhy\\Desktop\\bean.xml");
-//        //2.根据id获取Bean对象
-//        IAccountService as = (IAccountService) ac.getBean("accountService");
-//        IAccountDao adao = ac.getBean("accountDao", IAccountDao.class);
-//
-//        System.out.println(as);
-//        System.out.println(adao);
-////        as.saveAccount();
-
 //      1.获取核心容器对象, 加载配置
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
         //2.根据id获取Bean对象
-        AccountServiceImpl accountServiceImpl = (AccountServiceImpl) context.getBean("accountService2");
+        AccountServiceImpl accountServiceImpl = (AccountServiceImpl) context.getBean("accountService");
         System.out.println("accountServiceImpl = " + accountServiceImpl);
         accountServiceImpl.saveAccount();
-
-        //--------BeanFactory----------
-//        Resource resource = new ClassPathResource("bean.xml");
-//        BeanFactory factory = new XmlBeanFactory(resource);
-//        IAccountService as  = (IAccountService)factory.getBean("accountService");
-//        System.out.println(as);
+//        @PreDestroy 关闭容器前，执行容器的销毁方法
+//        @PreDestroy
+//@PreDestroy In AccountDaoImpl
+        /*执行顺序可见一斑，都会被调用*/
+        context.close();
     }
 }

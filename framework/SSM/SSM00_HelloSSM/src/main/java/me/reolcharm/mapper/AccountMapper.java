@@ -6,5 +6,14 @@
  **/
 package me.reolcharm.mapper;
 
-public class AccountMapper {
+import me.reolcharm.domain.Account;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+public interface AccountMapper {
+
+    List<Account> findAll();
+
+    boolean save(Account account);
 }

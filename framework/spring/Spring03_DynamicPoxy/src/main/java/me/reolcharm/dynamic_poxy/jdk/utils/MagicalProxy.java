@@ -4,9 +4,10 @@
  * @CreatedTime: 2018-10-28 17:12
  * @Description:
  **/
-package me.reolcharm.dynamic_poxy;
+package me.reolcharm.dynamic_poxy.jdk.utils;
 
-import me.reolcharm.dynamic_poxy.impl.Mycat;
+import me.reolcharm.dynamic_poxy.jdk.SomeoneImplNeed2BeProxied;
+import me.reolcharm.dynamic_poxy.jdk.impl.Mycat;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -22,7 +23,7 @@ import java.lang.reflect.Proxy;
 public class MagicalProxy {
     public static SomeoneImplNeed2BeProxied getMyMagicalCat() {
         final Mycat mycat = new Mycat();
-
+        /* 接口名 接口代理实现类 = (接口名)Proxy.newProxyInstance() */
         SomeoneImplNeed2BeProxied myMagicalCat = (SomeoneImplNeed2BeProxied) Proxy.newProxyInstance(
                 mycat.getClass().getClassLoader(),
                 mycat.getClass().getInterfaces(),

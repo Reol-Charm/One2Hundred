@@ -9,8 +9,22 @@
 <html>
 <head>
     <title>Login</title>
+    <style>
+        h2 span{
+            color: gold;
+        }
+    </style>
 </head>
 <body>
-<h2 align="center">请您<span style="color: lightsalmon">登陆</span></h2>
+<h2 align="center">您好, 请您<span>登陆</span></h2>
+
+<a href="account/findAll">查询所有</a><br>
+
+<hr color="pink">
+<%--<form action="account/login.do" method="post">
+    用户名: <input type="text" name="username"/>
+    密码: <input type="password" name="password"/><br>
+    <input type="submit" value="登录账户， post 请求" align="center">
+</form>--%>
 </body>
 </html>

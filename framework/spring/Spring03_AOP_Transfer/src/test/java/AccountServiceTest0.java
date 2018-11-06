@@ -1,5 +1,3 @@
-package me.reolcharm.test;
-
 import me.reolcharm.service.IAccountService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,15 +9,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * 使用Junit单元测试：测试我们的配置
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:bean.xml")
-public class AccountServiceTest {
+@ContextConfiguration(locations = "classpath:bean01.xml")
+public class AccountServiceTest0 {
 
     @Autowired
     private IAccountService as;
 
     @Test
     public  void testTransfer(){
-        as.transfer("aaa","bbb",100f);
+        as.transfer("aaa","bbb",500f);
 
     }
 

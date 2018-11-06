@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <!--
-         *1. 第一个：需要一个配置文件来配置我们的service和dao
-         *           配置的内容：唯一标识=全限定类名（key=value)
-         *   第二个：通过读取配置文件中配置的内容，反射创建对象
-         *
-         *   我的配置文件可以是xml也可以是properties, 小案例用的是 properties.
-         * Spring 就是用的 xml, 所以, 省略了 xml 解析, 以及工厂类的创建, 我们只需关注怎么配置
-    -->
-    <!--
-        创建
-            默认构造-->
-    <bean id="accountDao" class="me.reolcharm.dao.impl.AccountDaoImpl"/>
-    <bean id="accountService" class="me.reolcharm.service.impl.AccountServiceImpl"/>
-    <!-- 
-     注入集合属性
-顾名思义，就是给类中的集合成员传值
-    方法中集合注入 -->
-    <bean id="accountService2" class="me.reolcharm.service.impl.AccountServiceImpl">
-        <!--数组结构-->
-        <property name="myStrs">
-            <set>
-                <value>Hello</value>
-                <value>Spring</value>
-                <!--中间字段都被当做了字符串-->
-                <value>'"MIMIAO?"'</value>
-            </set>
-        </property>
-    </bean>
-
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+<!--在哪里查找 Bean -->
+    <context:component-scan base-package="me.reolcharm"/>
 
 </beans>
+        <!--
+             *1. 第一个：需要一个配置文件来配置我们的service和dao
+             *           配置的内容：唯一标识=全限定类名（key=value)
+             *   第二个：通过读取配置文件中配置的内容，反射创建对象
+             *
+             *   我的配置文件可以是xml也可以是properties, 小案例用的是 properties.
+             * Spring 就是用的 xml, 所以, 省略了 xml 解析, 以及工厂类的创建, 我们只需关注怎么配置
+        -->
+        <!--
+            创建默认构造-->
+        <!-- <bean id="accountDao" class="me.reolcharm.dao.impl.AccountDaoImpl"/>
+         <bean id="accountService" class="me.reolcharm.service.impl.AccountServiceImpl"/>
+
+         <bean id="accountService2" class="me.reolcharm.service.impl.AccountServiceImpl">
+             &lt;!&ndash;数组结构&ndash;&gt;
+             <property name="myStrs">
+                 <set>
+                     <value>Hello</value>
+                     <value>Spring</value>
+                     &lt;!&ndash;中间字段都被当做了字符串&ndash;&gt;
+                     <value>'"MIMIAO?"'</value>
+                 </set>
+             </property>
+         </bean>
+         </beans>-->
+
+

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- service -->
+    <bean id="accountService" class="me.reolcharm.service.impl.AccountServiceImpl">
+        <property name="accountDao" ref="accountMapper"/>
+    </bean>
+    <!-- mapper -->
+    <bean id="accountMapper" class="me.reolcharm.mapper.impl.AccountDaoImpl">
+        <property name="runner" ref="queryRunner"/>
+        <property name="connectionUtils" ref="connectionUtils"/>
+    </bean>
+
+    <bean id="queryRunner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype"/>
+
+    <bean id="connectionUtils" class="me.reolcharm.utils.ConnectionUtils">
+        <property name="dataSource" ref="transferDataSource"></property>
+    </bean>
+    <!--加载外部文件--><!-- datasource -->
+    <context:property-placeholder location="myJdbc.properties"></context:property-placeholder>
+
+    <bean id="transferDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${driverClass}"/>
+        <property name="jdbcUrl" value="${url}"/>
+        <property name="user" value="${username}"/>
+        <property name="password" value="${password}"/>
+    </bean>
+    <!-- util.transactionManager -->
+    <bean id="transactionManager" class="me.reolcharm.utils.TransactionManager">
+        <property name="connectionUtils" ref="connectionUtils"/>
+    </bean>
+
+    <!--配置切面-->
+    <aop:config>
+        <aop:pointcut id="pt" expression="execution(* me.reolcharm.service.impl.*.*(..))"></aop:pointcut>
+        <aop:aspect id="transactionManager" ref="transactionManager">
+            <aop:before method="beginTransaction" pointcut-ref="pt"></aop:before>
+            <aop:after-returning method="commit" pointcut-ref="pt"></aop:after-returning>
+            <aop:after-throwing method="rollback" pointcut-ref="pt"></aop:after-throwing>
+            <aop:after method="release" pointcut-ref="pt"></aop:after>
+        </aop:aspect>
+    </aop:config>
+
+    <context:component-scan base-package="me.reolcharm"></context:component-scan>
+    <aop:aspectj-autoproxy/>
+</beans>

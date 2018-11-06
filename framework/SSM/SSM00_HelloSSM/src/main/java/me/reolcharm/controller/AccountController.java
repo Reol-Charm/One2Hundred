@@ -29,6 +29,11 @@ public class AccountController {
         System.out.println("account = " + account);
         accountService.findAll();
         accountService.save(account);
+        return "successLogin";
+    }
+    @RequestMapping("findAll")
+    public String findAll() {
+        accountService.findAll();
 
         return "successLogin";
     }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--  &lt;!&ndash; 配置Service &ndash;&gt;
+     <bean id="accountService" class="me.reolcharm.service.impl.AccountServiceImpl">
+         &lt;!&ndash; 注入dao &ndash;&gt;
+         <property name="accountDao" ref="accountMapper"></property>
+     </bean>-->
+
+    <!--&lt;!&ndash;配置Dao对象&ndash;&gt;
+    <bean id="accountMapper" class="me.reolcharm.mapper.impl.AccountDaoImpl">
+        &lt;!&ndash; 注入QueryRunner &ndash;&gt;
+        <property name="runner" ref="runner"></property>
+        &lt;!&ndash; 注入ConnectionUtils &ndash;&gt;
+        <property name="connectionUtils" ref="connectionUtils"></property>
+    </bean>
+-->
+
+    <!--配置QueryRunner-->
+    <bean id="accountMapper" class="me.reolcharm.mapper.impl.AccountDaoImpl">
+        <property name="runner" ref="runner"></property>
+    </bean>
+    <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype"></bean>
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--连接数据库的必备信息-->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/framework_spring03_transfer"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="reol"></property>
+    </bean>
+
+    <!-- 配置Connection的工具类 ConnectionUtils
+    <bean id="connectionUtils" class="me.reolcharm.utils.ConnectionUtils">
+        &lt;!&ndash; 注入数据源&ndash;&gt;
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>-->
+
+    <!-- 配置事务管理器
+    <bean id="txManager" class="me.reolcharm.utils.TransactionManager">
+        &lt;!&ndash; 注入ConnectionUtils &ndash;&gt;
+        <property name="connectionUtils" ref="connectionUtils"></property>
+    </bean>-->
+    <!--Can't call commit when autocommit=true-->
+    <!--配置aop-->
+    <!--<aop:config>
+        <aop:pointcut id="pt" expression="execution(* me.reolcharm.service.impl.*.*(..))"></aop:pointcut>
+        <aop:aspect id="transactionManager" ref="txManager">
+            <aop:before method="beginTransaction" pointcut-ref="pt"></aop:before>
+            <aop:after-returning method="commit" pointcut-ref="pt"></aop:after-returning>
+            <aop:after-throwing method="rollback" pointcut-ref="pt"></aop:after-throwing>
+            <aop:after method="release" pointcut-ref="pt"></aop:after>
+        </aop:aspect>
+    </aop:config>-->
+
+    <aop:aspectj-autoproxy/>
+    <context:component-scan base-package="me.reolcharm"></context:component-scan>
+</beans>

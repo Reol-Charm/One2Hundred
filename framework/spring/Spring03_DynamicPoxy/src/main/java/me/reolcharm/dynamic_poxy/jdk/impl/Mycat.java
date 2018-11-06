@@ -4,9 +4,9 @@
  * @CreatedTime: 2018-10-28 17:01
  * @Description:
  **/
-package me.reolcharm.dynamic_poxy.impl;
+package me.reolcharm.dynamic_poxy.jdk.impl;
 
-import me.reolcharm.dynamic_poxy.SomeoneImplNeed2BeProxied;
+import me.reolcharm.dynamic_poxy.jdk.SomeoneImplNeed2BeProxied;
 
 public class Mycat implements SomeoneImplNeed2BeProxied {
 

@@ -8,9 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>$Title$</title>
+    <title>Title</title>
+    <style>
+        h2{
+            color: coral;
+        }
+    </style>
 </head>
 <body>
-$END$
+    <h2> Hello SpringMVC!</h2>
 </body>
 </html>

@@ -4,16 +4,16 @@
  * @CreatedTime: 2018-10-28 18:35
  * @Description:
  **/
-package me.reolcharm.dynamic_poxy.jdk.ui;
+package me.reolcharm.dynamic_poxy.cglib.ui;
 
-import me.reolcharm.dynamic_poxy.jdk.utils.MagicalProxy;
-import me.reolcharm.dynamic_poxy.jdk.SomeoneImplNeed2BeProxied;
+import me.reolcharm.dynamic_poxy.cglib.impl.Mycat;
+import me.reolcharm.dynamic_poxy.cglib.utils.MagicalProxy;
 
 public class Client {
     public static void main(String[] args) {
+        Mycat myMagicalCat = MagicalProxy.getMyMagicalCat();
 
-        SomeoneImplNeed2BeProxied myMagicalCat = MagicalProxy.getMyMagicalCat();
         myMagicalCat.singing("Mi");
-        myMagicalCat.talkShow("GET ON YOUR KNEES!");
+        myMagicalCat.talkShow("Mi");
     }
 }

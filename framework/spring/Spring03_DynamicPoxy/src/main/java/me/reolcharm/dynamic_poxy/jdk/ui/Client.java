@@ -4,15 +4,10 @@
  * @CreatedTime: 2018-10-28 18:35
  * @Description:
  **/
-package me.reolcharm.dynamic_poxy.ui;
+package me.reolcharm.dynamic_poxy.jdk.ui;
 
-import me.reolcharm.dynamic_poxy.MagicalProxy;
-import me.reolcharm.dynamic_poxy.SomeoneImplNeed2BeProxied;
-import me.reolcharm.dynamic_poxy.impl.Mycat;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import me.reolcharm.dynamic_poxy.jdk.utils.MagicalProxy;
+import me.reolcharm.dynamic_poxy.jdk.SomeoneImplNeed2BeProxied;
 
 public class Client {
     public static void main(String[] args) {

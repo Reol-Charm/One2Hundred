@@ -17,5 +17,8 @@
 </head>
 <body>
     <h2> Hello SpringMVC!</h2>
+
+    <hr>
+    ${accountAfterSearch.username} & ${accountAfterSearch.password}
 </body>
 </html>

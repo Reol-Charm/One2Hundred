@@ -1,4 +1,4 @@
-package com.itheima.dao;
+package me.reolcharm.dao;
 
 /**
  * 账户的持久层接口

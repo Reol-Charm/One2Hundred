@@ -1,9 +1,11 @@
 package me.reolcharm.ui;
 
+import me.reolcharm.config.SpringConfiguration;
 import me.reolcharm.dao.IAccountDao;
 import me.reolcharm.service.IAccountService;
 import me.reolcharm.service.impl.AccountServiceImpl;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -31,7 +33,9 @@ public class Client {
      */
     public static void main(String[] args) {
 //      1.获取核心容器对象, 加载配置
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
+//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
+        /* 指定 spring 的配置类 */
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
         //2.根据id获取Bean对象
         AccountServiceImpl accountServiceImpl = (AccountServiceImpl) context.getBean("accountService");
         System.out.println("accountServiceImpl = " + accountServiceImpl);
