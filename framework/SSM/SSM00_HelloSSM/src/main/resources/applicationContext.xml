@@ -23,3 +23,11 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 </beans>
+
+<!--
+
+    整合 mybatis 框架
+将以前的 sqlMapConfig.xml 文件中的内容配置到 spring 的配置文件中,
+
+
+-->

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+        搭建 mybatis 环境
+        1. 导入依赖
+        2. 确定 dao 层 mapper 接口
+        3. 配置 sqlMapConfig.xml 文件 - - > 去爬一个过来
+        4. 配置 mapper 映射文件
+-->
+
+<mapper namespace="me.reolcharm.mapper.AccountMapper">
+    <select id="findAll" resultType="me.reolcharm.domain.Account">
+        select * from account
+    </select>
+</mapper>

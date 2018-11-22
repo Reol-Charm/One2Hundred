@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--	 SpringMVC 的配置文件, 扫描 web 层的注解
+        1. Spring 和 SpringMVC 相整合:
+            1.1 核心: web.xml 中增加 Listener, 监听本文件(Spring)
+                实现: 配置监听器实现启动服务创建容器(配置 spring 提供的监听器，用于启动服务时加载容器 )
+    -->
+    <!--注解支持-->
+    <mvc:annotation-driven/>
+    <!--注解扫描到包-->
+    <context:component-scan base-package="me.reolcharm.controller">
+        <!--制定扫包规则，只扫描 @Controller 注解的 JAVA 类，其他层的让 Spring 管理-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--配置视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--释放静态资源-->
+    <mvc:default-servlet-handler/>
+</beans>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+
+	<title>FixedColumns example - Individual column filtering</title>
+	<link rel="stylesheet" type="text/css" href="../../../media/css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="../css/dataTables.fixedColumns.css">
+	<link rel="stylesheet" type="text/css" href="../../../examples/resources/syntax/shCore.css">
+	<link rel="stylesheet" type="text/css" href="../../../examples/resources/demo.css">
+	<style type="text/css" class="init">
+
+	/* Ensure that the demo table scrolls */
+	th, td { white-space: nowrap; }
+	div.dataTables_wrapper {
+		width: 800px;
+		margin: 0 auto;
+	}
+
+	</style>
+	<script type="text/javascript" language="javascript" src="../../../media/js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../../../media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/dataTables.fixedColumns.js"></script>
+	<script type="text/javascript" language="javascript" src="../../../examples/resources/syntax/shCore.js"></script>
+	<script type="text/javascript" language="javascript" src="../../../examples/resources/demo.js"></script>
+	<script type="text/javascript" language="javascript" class="init">
+
+
+$(document).ready(function() {
+	// Setup - add a text input to each footer cell
+	$('#example tfoot th').each( function () {
+		var title = $('#example thead th').eq( $(this).index() ).text();
+		$(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+	} );
+ 
+	// DataTable
+	var table = $('#example').DataTable( {
+		scrollY:        "300px",
+		scrollX:        true,
+		scrollCollapse: true,
+		paging:         false
+	} );
+	 
+	// Apply the filter
+	table.columns().indexes().each( function (idx) {
+		$( 'input', table.column( idx ).footer() ).on( 'keyup change', function () {
+			table
+				.column( idx )
+				.search( this.value )
+				.draw();
+		} );
+	} );
+
+	new $.fn.dataTable.FixedColumns( table );
+} );
+
+
+	</script>
+</head>
+
+<body class="dt-example">
+	<div class="container">
+		<section>
+			<h1>FixedColumns example <span>Individual column filtering</span></h1>
+
+			<div class="info">
+				<p>This example shows FixedColumns being configured with individual column filtering abilities. Note that the event handler for the filtering is applied to the
+				<code class="tag" title="HTML tag">input</code> elements before FixedColumns is initialised, so when FixedColumns clones nodes it also copies the event.</p>
+			</div>
+
+			<table id="example" class="stripe row-border order-column" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>First name</th>
+						<th>Last name</th>
+						<th>Position</th>
+						<th>Office</th>
+						<th>Age</th>
+						<th>Start date</th>
+						<th>Salary</th>
+						<th>Extn.</th>
+						<th>E-mail</th>
+					</tr>
+				</thead>
+
+				<tfoot>
+					<tr>
+						<th>First name</th>
+						<th>Last name</th>
+						<th>Position</th>
+						<th>Office</th>
+						<th>Age</th>
+						<th>Start date</th>
+						<th>Salary</th>
+						<th>Extn.</th>
+						<th>E-mail</th>
+					</tr>
+				</tfoot>
+
+				<tbody>
+					<tr>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td>System Architect</td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td>2011/04/25</td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Garrett</td>
+						<td>Winters</td>
+						<td>Accountant</td>
+						<td>Tokyo</td>
+						<td>63</td>
+						<td>2011/07/25</td>
+						<td>$170,750</td>
+						<td>8422</td>
+						<td>g.winters@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Ashton</td>
+						<td>Cox</td>
+						<td>Junior Technical Author</td>
+						<td>San Francisco</td>
+						<td>66</td>
+						<td>2009/01/12</td>
+						<td>$86,000</td>
+						<td>1562</td>
+						<td>a.cox@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Cedric</td>
+						<td>Kelly</td>
+						<td>Senior Javascript Developer</td>
+						<td>Edinburgh</td>
+						<td>22</td>
+						<td>2012/03/29</td>
+						<td>$433,060</td>
+						<td>6224</td>
+						<td>c.kelly@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Airi</td>
+						<td>Satou</td>
+						<td>Accountant</td>
+						<td>Tokyo</td>
+						<td>33</td>
+						<td>2008/11/28</td>
+						<td>$162,700</td>
+						<td>5407</td>
+						<td>a.satou@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Brielle</td>
+						<td>Williamson</td>
+						<td>Integration Specialist</td>
+						<td>New York</td>
+						<td>61</td>
+						<td>2012/12/02</td>
+						<td>$372,000</td>
+						<td>4804</td>
+						<td>b.williamson@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Herrod</td>
+						<td>Chandler</td>
+						<td>Sales Assistant</td>
+						<td>San Francisco</td>
+						<td>59</td>
+						<td>2012/08/06</td>
+						<td>$137,500</td>
+						<td>9608</td>
+						<td>h.chandler@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Rhona</td>
+						<td>Davidson</td>
+						<td>Integration Specialist</td>
+						<td>Tokyo</td>
+						<td>55</td>
+						<td>2010/10/14</td>
+						<td>$327,900</td>
+						<td>6200</td>
+						<td>r.davidson@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Colleen</td>
+						<td>Hurst</td>
+						<td>Javascript Developer</td>
+						<td>San Francisco</td>
+						<td>39</td>
+						<td>2009/09/15</td>
+						<td>$205,500</td>
+						<td>2360</td>
+						<td>c.hurst@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Sonya</td>
+						<td>Frost</td>
+						<td>Software Engineer</td>
+						<td>Edinburgh</td>
+						<td>23</td>
+						<td>2008/12/13</td>
+						<td>$103,600</td>
+						<td>1667</td>
+						<td>s.frost@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Jena</td>
+						<td>Gaines</td>
+						<td>Office Manager</td>
+						<td>London</td>
+						<td>30</td>
+						<td>2008/12/19</td>
+						<td>$90,560</td>
+						<td>3814</td>
+						<td>j.gaines@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Quinn</td>
+						<td>Flynn</td>
+						<td>Support Lead</td>
+						<td>Edinburgh</td>
+						<td>22</td>
+						<td>2013/03/03</td>
+						<td>$342,000</td>
+						<td>9497</td>
+						<td>q.flynn@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Charde</td>
+						<td>Marshall</td>
+						<td>Regional Director</td>
+						<td>San Francisco</td>
+						<td>36</td>
+						<td>2008/10/16</td>
+						<td>$470,600</td>
+						<td>6741</td>
+						<td>c.marshall@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Haley</td>
+						<td>Kennedy</td>
+						<td>Senior Marketing Designer</td>
+						<td>London</td>
+						<td>43</td>
+						<td>2012/12/18</td>
+						<td>$313,500</td>
+						<td>3597</td>
+						<td>h.kennedy@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Tatyana</td>
+						<td>Fitzpatrick</td>
+						<td>Regional Director</td>
+						<td>London</td>
+						<td>19</td>
+						<td>2010/03/17</td>
+						<td>$385,750</td>
+						<td>1965</td>
+						<td>t.fitzpatrick@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Michael</td>
+						<td>Silva</td>
+						<td>Marketing Designer</td>
+						<td>London</td>
+						<td>66</td>
+						<td>2012/11/27</td>
+						<td>$198,500</td>
+						<td>1581</td>
+						<td>m.silva@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Paul</td>
+						<td>Byrd</td>
+						<td>Chief Financial Officer (CFO)</td>
+						<td>New York</td>
+						<td>64</td>
+						<td>2010/06/09</td>
+						<td>$725,000</td>
+						<td>3059</td>
+						<td>p.byrd@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Gloria</td>
+						<td>Little</td>
+						<td>Systems Administrator</td>
+						<td>New York</td>
+						<td>59</td>
+						<td>2009/04/10</td>
+						<td>$237,500</td>
+						<td>1721</td>
+						<td>g.little@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Bradley</td>
+						<td>Greer</td>
+						<td>Software Engineer</td>
+						<td>London</td>
+						<td>41</td>
+						<td>2012/10/13</td>
+						<td>$132,000</td>
+						<td>2558</td>
+						<td>b.greer@datatables.net</td>
+					</tr>
+					<tr>
+						<td>Dai</td>
+						<td>Rios</td>
+						<td>Personnel Lead</td>
+						<td>Edinburgh</td>
+						<td>35</td>
+						<td>2012/09/26</td>
+						<td>$ RËç‡[`<µCşğ¦»]ü4ÜAÜ‘¾I¨FsÔé¦jD»ûİ0ÿ£ggìàzö@ ëÀÛ‚pãÁõèŸ »¾@"}©®oÀëúr]ÿ†É®ßHÂL¤ãìÕ	 ÃòV$¨°*Á-	¬KpÁÙ		paB"\œàş]w`Uşÿ|wv7æ½)KŒÙ…Ğ!!HH iJGH4à¢( (%(RìJTB]Š(E¢@TŠbãÄŞ¬Üy–#¿÷ŞÌÎnBäüİÙ)ï½yß^÷ë¶±»i1ß0*¼­¬¨c+ıZ3Oîá–Ë¸Tb9q-mWo‚4½)˜Ş<!	Ÿšª5#ÓéFW{äÖbäl1rî©#‹ñZx+íf[2•¶ìuÚè”‹
+%#Ö!J%–êíĞ;"Y?)zèz¾‡i)ñ.L`u¼BKï–»SÊ„—x‡>e9‹˜r´Ğ]	-Ü¨îµÄ‹ÔßF*ÇS'õîbÂÓ Şéz_„Åq#½²ôşh®ô¢Ñ:Z+rMG­ÕZ³ÄQ¶ê'/tók9±´/Çuò—$¨Pù	*”åş+ÁõÊ %œ·ÜûvU¨üØy¥‰]—ã
+°(ŠLyìD(cA+õÁ‡ÀFç^Õí/¸Bm›×~,#‘í4–l7I=6¬†Ç‹ë7×_áî¿¥ºÉı³·Ò÷Hõ· Í‰#æí”×—:×k¨)wü¯šŒ ñ/øƒäFû) ÿº .CcâbÑ/ÁıR\®Å$ı2LÓK1S¿³ô‰˜«_ÕúµX¯OÁúTl×§c~=è3pX¿oêóñ‰^†/õ8¦ß†ãú"ü¨/Æ¿ô%øE_†?ô‰ô‡È/şÖÓ¦úú
+2ôJj ¯¤t}è›=nğ	Rµ\7¤Pâ9˜J´ªÅXób4F·¾À’MMÊd\w~×H¾?^‰ªœÈ<:ÈBD·Jö^:&$ş¤®P•
+tg·‹ŸõeIÖSH/G¦|´AN¤ƒ¼%(pï7O«â2q¯`±gKOË{Q–c¯Àùÿ˜p%RÔ=]åÃyrÂ™9â‚³‚®‚-kVCşHÈ_*ó%îÊ(i¶1Zİ_†wæ'\¯¢»UÛÉ­tOœİ±#úÓ‚elGªşŒàFÏÂÔw
+"İ%ôy´Ğ_@k}7Úé{ĞIß‹núË‚Oï|úŒÒ_E‰¾ãôƒ‚OÂ•ú¸V?, şæèï
+~}‹ô÷ÏşHğëOP®Jı	_âIıkìÔ¿Xğ-^Ñ¿ÇAı¼¯ÿˆÏõŸ¼0Q#¬V|]jb_xş…µ6¾Ñ‚¸SqTk«êŞqËM¼©µóúÆá|–ÖŞ…óÏœIf¤°*Êèü½·kîüÿî¾YjZòÈ»U[åà{I`Ò¼eª"B`@£ˆt˜Î$‘r­k®Ä¥P`OÍ$+¹Dú2Œt~u¢)z8HÑ%qrñ;’ø[ CAö&ºO…LÚñ¼ü@Ü¯pºù£ÕêB¤Fv§ªáÒòãwpıØz5º0z0}™CX #XcX®`Éø;KÁT–ŠXf²ú˜Ë82w20,„Õ,O²3°e`'ËÄË,Œƒ,‚#¬Şg-ñ%ËÁq–‹²<üÊÚàwvYGÒY¾‡]ğrˆydÍTğ˜LI*#Ôj•ªÁÆïªrË_Ë—|¶WfĞ×Õ¦¶åï~!Ê¶`dÊN“¡£äw,ZVEåËT§À"M\zP½‡ÜÜì¢ğ6z¸ÜÉ’X.Ç<I\üEÓW<+¿Q¤>…eÚf„ÌˆsÛ²Ç—²£™{»› µ‰*Ä<Á¸ªBµ¬¬7RÙy0Øù8ƒ@6¹l0:°¡(d¢'»ıÙpe£p=+ÆlV‚yìR,fcq»ËX)Ö±qØÌ&x¹<İj‹Gƒ|£”~=ŠêÈ‹òi<¾ºÙå«*BR˜)™ê{/Ë÷gÊÊğUy™óÈe¬‚¨ÇØi¦b”sªj­n8$Õ /Óå§DîmÅó¨Z9*Ò#>â·Ø½n™’RÔ-ù	³u•=o3]™Î—$İ(Ÿª¨Ş¯î×¢ÕÅ5ï‰3ÑqšYˆ& S ®C›ŠzlLvƒ Âd±™hÉf¡»ùì&±ÙèÇn@¸ÃØ\”°ù‚–Êp9»Ùm˜ÂnÇ¶7³»-İƒ2v–°ûq/{ å¬\ĞÒƒXÃÆV! µO³Ç°ƒ­Æ+lŞ`k=zÉÂ}ó<ìî€b”„$¼¦¥O¨{C•ÌóyÅPk3Ï1æé[íV¾ÊÔœ’s–É8İü|LNˆÿïÍ
+aS©Âqs«¨rDìÎùŠ»–uÍUå£T=«€÷\§ôµ2M$O8Å¯ÅÙ²á|YÔ*™i[òCÁŒÀJ¸¼;RĞòÅ™Pp^P¤
+šä$Tvš$yóº‹â§\vq¬¨z,ï^İùş
+Ñª¥;fv©ótl]õrN]T´z½ËŒGm©¹ŞM.W;İ³'«rBÁÜY|°'¦m¤¾\0‰l+ÂìYAîÏ!›í@[¶Ù.°—ÉïØ¶°½Å^ÆX¶OpíW0™½Šél¿`p+;ˆÛÙëÃŞÄCì-<ÂŞF”½‡õì(6±÷±}€çÙ‡Ã>Æëì¼Ã¾ÀIöØ×”Ì¾!Æ¾¥tvŒ"ì8e±ï)ıBìßÔıJ½Øot>ûús¢¹FrŠy&ğTºš§ynäÔÔ«Ğìq÷É.wĞ•
+G}H¥ñ
+G5p£å«@I¥x aºHñşÚnäNÚ9.;úÕ/™IÊğÊr03ª÷MàGŸÌX/lé<M—„²?Â/®äNG¶he\S/S¥©{U##…P•*gOàì#ÊÅ(qg‘çšP®ŸB'ÍÈ5ßWº	â~Ç•!]ÃŒXş±ßÇ›!n9G¡Z0îÎğV/x t¤FÔP‰¯\}¡c% FÈ˜GÆÂâpÏBCŞ-xsäñ–hÏ[c4ÏÃxŞ×ğ¶¸·ÃlŞsx>óN¸‡wF%/ÀjŞx!6ón8Ì{àmŞñóğ€où@üÀ‡âw~!Nòáä#(&Î‹=”AÓ:K¯ÚzGÇ½£Å˜éø”ÿÏ9'Àê¡¡¸]­¥ù×(wñR®r‚1Ô5[!eêT¬ûü¢[PàûKóÊm2.Ó‘QaÅ²¶gJÕ3‘BÆ'„Æ³ŠdøÃJP9gË#ğÔaQ°Ø•à<¹£\§Ü-“”»%Šñ™¼dÆ„ıc¼QÇ«‡ÄÙ~â!w²“QŠÓâD'ï«‰Ìïš‚cJåÚ™,ä	K³@•2¢¤¢z·O“c\ĞcD«›Ç.ÍÆ–üç®l•—éh‘N^æJ¯àÜ±S¢&ŠEñkÀøØü:dğ©hÄ§¡Ÿl>S(¨³p¿]ùMèÉg£¿}ùás…<Å|>.å0‘/Ä~;¦ñ%¸‰/Å<~ñ»p¿Ëø½xˆß‡
+."ëørk+®=‚*ş(vğÇğb_C|òµø˜¯Ã§|=¾æOâß€ïùVœàÛğßN>ş%ñİTŸï¡3ù^jË÷Q'ş*òıñ`é
+6e+êC5wS#j¤˜•ÍèL%dTßıxFmÆTè+u±ğñdŠyxmÑêÚ)×Pqì™2®E«ş¿òuÓiåk\ôÔ%iÿŠ|êÈ×ş1ùÚCü.‘æ‹3Ÿœ`+=ºLâbí‡O}Ñhuú)+’}âYA²ƒ‘2’ÅI! eÎ——/¬¦Ò—	cÎÂ£'ÖŒ”ğwàGÊÿÎ?úšğOÑŠ†¶üstà_ €‰nükœÏ¿Å`~Ãùq•ß	®÷=®â?`*ÿ³øÏ(ã'°„ÿ÷ó¡œÿ&8ßï#ÿÀãa“áÃVCÃNÃ=F $¼m¤à¨‘Š/4|mÔÇ÷†Ã¯†A>Ã¤4Ã"İH§3Œ3)ËÈ¤F„òŒ†ÔÑhDçYtÑ˜úÍiˆÑ"Ö
+ˆZ O	ÊdœOiîaëp­HñÂ ]à‰ÑíãŠÑ*rÅhêP§íªusÅh¶«Õ/ÔºJ¯Æ_À*!'˜ÏáH º¨pœZR_&½#'#ËÑxV#ù/ÎÙQYı‹´¢hõÇò‡`gå…<37ÿôŠ,ŒNğ]c¡½Ñ½îègœ‹FO\`ôÂEFo}p™Ñş¸Ú„éÆÌ2.ÀMÆE¸Õæ)ÓâM=¿òBµK¤>V´ïÃ­Zwµ›9næ²½Ñ[;WÈ@-¹ÓÃKX=Û)¥JĞÙà¤¬NsŒ£°´x.shm´’0­yªË.wÈ\Sl»”Ò´Éˆ¢³¼É²¥^¦ŒøÈVVJ°ˆóg,—­<„¸LV?:„·ÀaùªÈÁeáS)§fb®ÛJ"c83[ˆ‹°keø#áˆ´’üN aqIxH­³WXvŒq„ÖuŠÂgO/
+oS¢pnvÍI•wKş]Ã›`vv¦OÑ-Hõ;güb%{ˆ›ƒ•è"f–*ÉÙNœÃæu-LûÕ‚O®Qª×¨! O~›}ÊFÄRÑC ŞDtW"Å˜f\qš3ĞÊ˜)q:7ãcÎ5æ¢—Q†AÆ­oÃãvŒ‹p¹±X ãL2–b²q7f`QÆÃXl,ÇİÆJ,3A…±
+QãQ<e<†*c55Öàc-^1Öáñ¸`3ëqÄxB°šøÔØˆcÆ&Áj6ã'ãüÇØAAc'¥/a¼HéÆn
+{(Çx•:¯Q/c?õ1Ò ãul¼ACÃt±ñ]j¼MS÷h†q”n3Ş§{è~ã3zØøœV_Ò:ãÚ`üDÏ?'(qİ”¤Î¨¯1é|Ûé±¦^ŞßvW¦P•šBÅ£ö® ½›r»ªML=µ^.1="îJãU»RdPLˆ(Ÿ*š^ r¶Ë„d„’*„¬ôqzîÔ3‚ª
+ºC~r(YÄñG ıâ#S_©¯ø-ğ~˜;`(YÉÔ\G¦6tû%%ùóvT*ñ)ùÙ -ß/DhršìÌë¬$ŠÄÀ‚¾–HùİĞALvĞ>JAqO¡ls
+¸­êNˆ3‚&»7«È`—xëÒ„ÎOÉ*0X¤ƒòõÊU'LïÍİœ|GjôÃ[êíV™T
+úˆ9Éu«ĞYî›KryòØ¥¹Æ±ÅŞF’[Ø!7±–Z¥¼,))yJÀ§Ÿ©¤{À‘î)î&FO¶÷FôÇ‰±úfÉf3éf
+"f*ššõ‘mZhgÚèd†P`¦£»yú˜`fb¸Ù%f#”šY¸ÒlŒëÌ&˜i6Å-f3,4›ãN³%ÊÍV¨4[c™ÇÍ6Øl¶Åv³v˜ğ’yö›ñ¦Y€÷Í.øÔ,Äwf~4»áßfw‚y.ifJ5{7{QºÙ›rÌ>ÔÆìKÍ~T` îæ@êc¢æ`l áæÅ4Ú,¦qf	ıÍK“ÌËiºYJ7™WÑ<s=dN¦•æTZgN£­ætÚnÎ¥Í2zÅ\@‡ÌÛès!}dŞN_˜‹è+s)}gŞA'Ì{è?æ½±l:„ÆJ‡HÁpzP¥tôT{„ZíêòHÙSH¦_ÜfY}ç6ËJ§¯”6@„>Ñz‹«A4%ÇOŸT‹xûhç¹ÚÄQG÷Å§X[ùÁ¸y“¥ö”*W@¢ìª—,5İğùd‚‘ü¤°¤nGLsŸ–œYË¡øõÔåÑê·¢²$¼°Â} wXX6EJ&5®@‡DÑ'Í"if­•2•·Z)hn¤<âcäGè…Î9Å÷¸¸_”TrF((ÙBª´¢„¬Ç5å.47#`>…4s¸YË|™æ³hiî@¾¹…æ.ô0ŸGosú›{1È|˜¯`”ù*Æ˜¯á
+s?&šñwó¦™ob–ùf›ocùÜaÅæûxÌüOš	Üü;ÍOñ¼ù…ÀÏã8`şŒ·Ì8jşËk'9
+´óÔóQ¤õ•ğ’ñ´¼&’¸Œ:€#®™†Ã.£æ8àX<°ğªÖO6u¨õşÚ ê¸M0öIVÒ5QûˆØU¹~Ãl¡ÆÂXò–P0
+Æ„¸[‰R=úDg‹;+ñ”ˆ«|È³ç‰Ÿqåã”Ğœ­MOH~ˆÄõ †òx/´&€[Q‚
+:+«Ò¬ú0,¬„­3ÑÌÊDG+ŒNV#YYèm5F«	.´šb¸Õ#­cµÄ«®²Zãj+3¬6˜kµE™ÕK¬³Qnu@…•G­NXmuÆf«Û¬s±×ê‘ÁºÏŞ>xû´ŠxxÉ™¥a‡<Û)‹Ø¬ÀXÛ äuÕ¸C<)=Ë²k…Ñâ¯ú«ë‘š®®,?ÅGœH+Af)y´ÑN²Rw'Yi™J\—¡T'håÉİáT×ª€–ÖUˆM¿S:*`İĞù•.g©¨•æôgD«•²P3
+6Á‘l]n@¦UŒ&V	š[cĞÎ+ 7ÖUèeı]@o†ZWÈMÆeÖ5rSpu¦[S1Ûš†[¬p«5K­™¸Ïº«¬›°ÖšƒMÖ|µ2ì²`·µû­Û½Ô¨v¸ËK:àÁñ€‚,GßãE»v8Ñ®Z¬q5£?2ó*²5´(ÉÀÖüp©4Â–ÃÊQ¶ÔkÖ	´Ó5Û¢ÇUršò;–E•_²†…§@*”£ÍNÊÙÁD`Òr˜kãóåÎãóÕ|Áø|Î:ëš-àˆÎvàİOù?Kÿ|¼Ø²×nÊÊ=oªäêıààË×nZ>rü²Y8îÓ©Î¾]JÙj÷ãÆÒ°FæûËÅ”¶%ñÓQ«ÄÎ•«OÊWò/C½‰õë]›Zœ-q,eåálhçóuTª®ñ·P¿Û$BSOXTµTx¸œS5ı‰şç›"Ÿ+Š¿–_½–_~9ÈS«ÎDAÎ&`lU¢%ŞÆZFÖÁÙÖ¢­µ¬õ‚³=ó¬‚&6nö®°¶`’U…©ÖVÌ²Æk‡ ‡¸ÇÚ%8Ùó‚&^Äzë%l±ö.ö2Xûğ–uZ‡ğ™õ:¾·ŞÀ	ëMœ´P²õbÖ{¶> ¦Ö‡”m}Dg[ŸPõ)YŸQ/ë+d}MZßĞ%Ö·t¹uœ&ZßÑëZdıLw['èë7zØúVX'éQ«šÖÙ 'lUÙ=g'Ñn;™>·Óè¸]~²ëÓlæK²m_=;ä³ìˆ/bgùšÛ}Ùv_G»©¯ÀvÒÃ–@G#4W6O EHu©x)š:@¬G²´|ˆ°{n/F:çhÆ9ÏÒq¤»£Œ¤­1^à+ôªë
+İÏ¥úÚÇ"y¾vÎ‡|ÍİgkGò.ğ¸Âµ®óá˜Çş‹ç]—kÑìóú«P/,îí(5TéÚûÃ	<|—Êµ~²—	ù]2µ‚…ü	tª¦pÈ^ÈŸÒ}¾C½=”nDw­‘ôÁãËn[¶¢'oŞ…ùánNôäñÚKç¸ÏŸniaşZQXºÏŞÖ”^á÷™Ø é>œ”3˜óÕ9¼Äá!ÑêïÕ5ù­¸“½ãTŒod»»#v!²í®Èµ{ ƒİöyènŸvôµ`°=ÃíA(¶‡à
+{&ÛÃ1Õ[ì‹QfÂ{4î·K°Æ¾ì1ØjÇöØkÿ‡í	x×¾ŸÚ“qÜ¾'ìk‰ì©”lO#İN–=‹Ú7RKû&ÊµgÓ9öÍTdÏ¡îö\êgÏ§Kì%4Á^J“ì;h†}'Í¶—ÑûAšo?Dkíå´Á^A/Ú•ô²½’^µWÑ!ûQ:l?FGì(}h¯¡Ïìµô½Ñ«yŒf.µ-AŠKt½SŒnQ×­[¶íZeÛ¶mÛ¶mó-Û¶mÛ¶ÍU®Zu¾½s’/ùÿ¤Ï‹1.[OFoÏì¡ ĞÇ>ZÆ6Š6„¢ H&b1â›ò8¥šA¡(ÓùA*`Œi^–ûLÙŒ½÷ Lîd‰>ÚféHñ^Ç™OO¯jérK§FM]%EÙÊÔ]¸E1!:†ïÆ}(”7é0šgu¬ğœ!zzX>‡ñ5‰ûÒ·—8(\„vgé›t“a Å@4¼ÓèK­¥Å@÷¨kœ_˜ğ‹qlÛÁ$ØLåæq×Ÿ°ù‘qşœÌí¼SúÙÔm½¢áóJ~ZÆU¥@jŞ§Ê¥_g­²Ø·opXêzcg›»ÑÌtô®}î¶¦™B÷ª™d•qâŒæ˜‹]© Bˆ·qLeÂ‡:Ln£ñ?‹Î„Å«Ö½³
+ÑW)°[kÒÖ"°Æb7ÊHöBSW„Ò"Jx>anˆP¬ğpNz˜Lè“^‹·Ò˜£»k;—îmx¢JÓ[%¡®šœòK)B÷Åp!/ŸÕtœåX«GØ£ô3ƒ Ø>¨SµÅ1³*à³²êØª¢ˆ'k¿	şpƒ
+hea¹0û]<9aºú”áÎì©á‚-è^äÏjÂ"x•K’•q?¬ÖŠ$ßFö%¿üAú¥æ]ğ2Û¢Ùà »¢rÓ9µZ‡Æ0îB¡
+™¡±R•r•õóö­\óÂ/*ĞÍá±JBùFKÕÑ[3“‚ Ç¥Nj5$)µ”_ßúGÍ~nësUuŠî†ïyôí%–ÂbU½Şã}c™9Á:ubšcëš”[e`ŸŒmŸÍ'°`€
+Aš¢ßíVa4@kÏ4}¬õ‹Ö®æHÜÿ¶é×µÌ~h9À•=›QÜvÈÌÍ!˜á»<û`™~İ8ŸšÊ=æŸöêDï†şÛù°Íß5»‘cTÅâTš·u~»e(²26sï²;Ù‹,€n*£”ŠCrÙéq¯ÿVz‡5]Óqïß¼ÚÕ¸+®úC;İüà³ÂË€§ÙtœŞ¬V°Œß²Î$3×ÿhh¦±Ï&xËƒ)Uè}ìÿVÄ]¸–nhÒĞ‚i
+a_®°kqa¹İŸw W;tÒEb½1nÚ5¶Ò˜šl­ş‡øßis¶Hß3@@6@@äÿCÚœˆƒ£‘‰«¼‹ˆƒ½«™§ëÿ›KU·sÄÕ@ç£¹µ&óÊ­O15ÉætÏæTÇC.ïP•—]&µ×åi2¡pçß1ÓæaştT¯Ş ¢c]1+ÈµâÈ/CŠ†d„Ãv´ˆ°ûş–Á(L£…ezL{)4ÕpJ³Äß÷úİ÷u¿åøÜéı|÷r€bæ=›°ñg\ ŠôcÅG$á¡;1„»Â}Š¨ÂQŒ8*S	T9m% óÑç<c¡[0	Ìß‰	Ï¤aš¨as1‘ºÉ^¼‡‚tqà&pMÚŠÙİ‹ŞÛróæÊ‡¹ÄÛ.#€«]ZÒÚ’›8Ñ”îZYáÉ2
+Ë›ñ„¶[Ö­OÅòœ£QîÂT-ëIñœC1TR:\ñfº Á®?Ë3£ï9l7Ægğú 2K–+Ÿ!E]Î»iB—w{M$ƒ¼ÿd7 ÕÜÊ™×Xòû­5%ŒÎ•u¨ãDoJ=êî¨æºHmnàÎ—;QäMq-æàó'Ê¡v¢ÎâO˜ãÙh‡^É›ÃÄ†²aL—{:ûèxÖ
+Æ¨Œå¤!£9¹ÔˆÆ¡lÓ–‹6¸¶Ö~ÈğPwj$ŸØ-µ%/Ãèb÷Kw]3ØS¡Â±;Pœv—ÚxH‹*ê™“Ûô}ÁšåuáOÇsié”Påµß^üá“Fû‹%ƒ,şâ‰å½³à›şgÓìeÁÜo°]nÜ&Û€¤É”aÊÎkKáÕ,bª’©Œ¤é'H(7^+å¥©' (ÄKÿaJ-³{Ì'ûRrù×İa¼¶®dAÒ±ÃšâNbLî
+nåX¢­`p@õb'cÄ”=6T]èïî¤Ñ@hÙîà2#6åÜ”i†0zM‘ÁÌ³Xr,š?¢rtb…ŸÏü`Å;†¬Cşí
+9_Ù®:LX<×b7¬:ÒĞm;Yr$L¸ªgŒw…»¾¤£şÄv»è˜ŸÚcDAÕ`¥Q³£h+6\ûò§:§¾ææ6ÉÇ«E…‚84I.èÁEPq¥ä¹Ò»§Û«+ífæ NdŞ“G¿hPnmËÖÀÊ{v”ØºGq–^n|t,“é;ıÚØ§N=ê[®˜o~¯íèS©§hÖ™oR0°îT\¨tQ·õ×Oí…<]ë¾î~[ÚI(Š® j +	;›£OzUçä#Ÿ×4Gßƒâµ?^‚wên;ãKË\àèÒÕ®ØCW­´µÚ,èŸ7ÂnsÙ§•†DK¼‡í$°y¢];~A.Î æ‚inaÿh…—L¬Ê·,ÅhŞ{ÚwÂ°0ªÕñÏ¤ŠOïZÒ@¼ÒlE6¥İû‘¶@XçM[4W‘q_ˆ9Zøm£øò\¯.¶}`¿ù¸Ü÷WÏÔãeå1œ²úiÉxí9	³‹K*œşjŠy¯MZÆ±ö‘ˆ±È»P=s®ısÒ8	Oââ6ùb·âÜj°ì ¿€jµ£ÄŠc®_Í\£ÅmrÕÓD)Œïj4Po­{ƒƒæ
+´¡|4¬‹èŠœpìŞÀø^šEñÿ¶dnqf¯a'ØÜıèI.˜x§Ô>Î	±ğ=³PÔÃ9òÜö[°c8äSK¼ÒˆB¥nF½Ê8BDn*~:"),QÇUPşõ€µ@#"WEpl‘	Æ¹¯¾SjÔ™ùDSµJ‹jzvHX&A	XÅJ¡¹>ä‚K÷XÜÖ×)‰ª’ACıÀ”=EÚ_:PRá–	Ş²nİÁ~Â }lÉÖ—XŞÇ*(šz§¬{’è«èïÿWm²°–Ñ@í¬&X–™WÁVàœİ ?ÇFÜğ9XÇ<dnÄz©è‰¾È©æ³®^k²€Úhdä&ª½Ó*Í!ºœœ4§¬œw~ñ&õ	RõŠé›7ú÷¾ƒ¿2Ç3ËªåjL<¡zÂkùÆ”j©_¯?rí ï½´?Âô‰ÄTû~ÖÍŒaí7ÕgÀ3ãêóçûÓŒ¢›ş{ĞMZVf¯KkbÒ˜³eÂ]}§–éHı€=˜^ĞNJh^„Á]ş­Z'#§hå¥°«—Tµ36Ø5»Nä¾ec…Šï¸GÉ¬±\ßCÜ¡¶@÷]¯PÔ“SËW=4Ô·Ùcèh’©ÔÚÏ„õ‘l)öhš‰ú„òAy†õNj÷E¹½Ó<GÔœ¢.)H*8aÅÔÜ“­=è¤¼ÎSŞ$f¤QoGşv`²BWíğ´àğÑA•ŠjŠ€.
+­`@·RÍiAñ»ràEFK V¿FÜZı,à.Y³^c˜p'Sm‹ŒV@û»¥ø‡X~Ô„QµY(¶I-J¬ I‚ÅŞ¸ÿñ³
+ä|±öÏyûM]¿‰Î/ßü?AÚ Ó¿ÆC{B˜ÿd£~ÂP|²G_×•=öæît(uÈT.´ÿJ®€JJQ’Ø‚è)S‹òé¥òDı»#şg€É£¥ ö(Å‰,'há =B¾LR)\6¾²7 Î¦‰2-G/ÙáP;°+núkˆÔõ–ÿİÔ+ÓñkÌö“íw, ;DÇ~ö+í-ÎçÀG{Èöt/´™úMjŠmYÖRÖ!H˜.Ø­|{P{:ñôßYòs[McÁ€ìÿsEø?ø1[3»ÿ“'ïò€Ÿª-ÀÍ¿ïõú­Uos£ÀÿØ¢ÈuWÁéb¾Ü¤Fù¢«±)n³Ïm_¼ñZ|;.Z@H¸ça
+“Z×’4¨²R
+‡ñŸîÃJ&9ù^VFÖÈ¹ß¶g¸•óŞ[Nß=×¼WŞ³ş?—Câ@n8.¥àZ4RÙnF##îĞKWcÜ®Ğ(ÎFüİ¡¿œãÛVã"Üî—jŠ[ÈP¢[moaÜÚ:Â~‡i¯ìàÒŠƒÁk‹¢Ôv¤K|â¾;-MäX3„Ÿ]İÁÄ”šœ¸77Ö°`ÑbA4„÷VĞníQjA&%ÓœÉò*0/á¯Ø¨áö¤á?I®ÌiXöÊŠ¼M“xÌcÇ—ñ……)™ê†„ÈçÛqLàiúÀ²ŸÙq+{’7\ÇcÆ:ÆŠAmDi‘¥Ùè´/s*4W‹íğñOf“iÂÇ% fNÜMşÌIjY²ZøÄšÊ¾díá’ì<)ººÊIü@*_Æ
+¤şm•ÓâÛx5-d/àbíóÕ‡ë,)ÄeÉİ|Ãøl,‡©EƒÏ¾ÔêÛÙ«òÂvE	)ÈTjØ¡Q0ıÎLê0ŠÍ¨d"±şlë´«"öé²,ãÁFíÈ®udşYwÂ¹îà¤ÂA‰…Ş¥ô!£#î-8=ÊÄ3Tõ¯P¯:,}r*{†¨ÎØF1Á¤_Döšähó!YÁ%iŞus²9Q—Ğ¥ÄISTb†ÆˆpF¶0uåÅfe*tqšçNÚ	SÛ¸ª¥ô(™ÖÓRÆT‡i†+å&p7BüÔ½ÈGÈ#l†U‚ëj@®¥Ï8€zšô´çfóåj–s…»a)æ2æÄÊËv–v–¬Ä[–'™„éU{†ÖR9Ì¬N
+sQx¬T¼<d¥Zœù9×Ó´¤/#'ŠÉQx´v¤ &óA`nF*½iåõ -êçŞ—˜tû§üÙ®{îÓ‘¬s7–ïL6ë¬—ô¦1¥v«VQÒ·VƒDHí{Vô]UixO¡Òô[£ªÚğ¶Í¤²´0M]m™Î†íÍ|í³lkR†j±íÌé µIçah¤rÖCÃˆLàU°Ñ¥±`:‰ş´Gk§nè°cÁ¥/º ‹Ş=±Gäº2Iõ7g'>Ó]‰úOñÂ4V›ÓWï¬2–MéÑy°çÕ„$(Õ•Íz ¤µÃ0²bïPLw:C>¢Õ”v<55¥‚ãÅâŸš]›áUå…ïÉ› ®ë7»ãÄ£.¬JU¬A¨8´há²&Ü‡Ü­í|Jµ¬{ÚÚ×úãÌ¡.7ê{ZøïÖŒ'ü Dóºg–Õš…İ¿nØ(ŠMËŒ2ùŠªPÔç¶šú5:ˆm
+“ sáš˜º	àJ-É {gñÊò!¢2¯|ıá~ÄêzäÌ?GõD<P",gøáH<Ä’sdß’f¿hBò¬ìŒúâ\n„ww.k…@ü³Ir»;œ›²† Ù•¯ª°"Im‚‚¹ÂCe—D¿+nâ¨*2;¯xºé©ÚI€|JçxjÁ
+:rvúJíqiÆh¥Èc “ı¾¿»M6Ó’¹Rüvk³Àk¸¼˜qNa„’+I×á3j®ºuhÅ
+‚ÇU!ğk­t­¢6h5ÙwµÍÄ~®hÔ:¬ğjÇ-(V'áÔ¡+vİ-V+¨(³]/2˜µ¢õÉv­zµ®ÖT,,oáÜØïÚ	D)mÖ®«õĞšS&?¯üãVzı…åæÏÿÅpÁà-Ò!¯ïµÌ,½Ïh)—ú!=?Tó?Õ'‰«®N9•í´òtåVK¡õ“b6€Ş?üôÅõD`íI€â:kó©¼g ¾bëœsF18ÂÑöm¿ãäàê¶¿Ç÷>ğùşÀy|‡
+<°ü;éí¬Nq†«iÌBíx’õ»8º¿Ms­>â$¹XccöG³ç©œĞÿ±Xï'—æêf›Y&î' ÍÏŞm*wsNN¥ûùo€\'Œ§šúÏGü¿#[[c#›ÿ73yäA™Ğğ r DDù8D‹dhÀDB`«ÔPà¥Ï81œI?Â¯90QÁ ”¡½Š`¡üÏâÏ{ï?Ç/ğX!Öì‹6Eóœke¨á[¬‘ä£µÆäÜËjiÔ>tÊÇIBÊ’FgCW!Èt-&œ’¦INRÉõø©;ZşöªìÈc%Â{ãp½­e£±¡¥ŒŠ\L¼ğ€RO42–a|-2fõDú'O“”ÙNH"ôş¬OæÖb[,‡++rÑ9ªRùí9(Z˜û±ÔFö¢şãË¥É'	6³Ñ©©WÂ?³ÓãA»â¡ÜÃÿ0z‡÷‡‰Ú¾"ÚÁ1X}mßã¿f|ë{ù4Ëâ`n·Ç_1y,‘‡ë$åG÷¾Àş{4·ØŞüç†÷?ÃKÙ;º¹ş¹Íì]U\ÿ¹[5¼<qGÑãêénDãEdå ZM$(Ê¤N70±¨Æa¤HìK[úEÕİ4ÇÊŞJƒèŞd…)y—Im…dÁè–°tv…ûÂ–¾øûÛÌ%ªãjFPö#~3°ûs½îßîÊÇÿùÌƒ©‰>$‘çD‡ø~Pğ¥'Ğ¼‹BÁs®Ä*©ùjÉw’„"ñ+ä«9Z@ÑqQ‰õí írnEúà81¸@½÷ùÆ3 >ı;4êóíÃ6Àüx’„J8’‰{w&!8öíbğg­?têãEZ$-÷ä@÷•lG÷•ôÀ^˜ëKJšå‰`G°34„Çşé¬1³Ñò©N£¿ø÷»H’LtUÁ4Ö`É˜9=pgö3SkíAŞ¯±¡Úu¥¯1²œ²]{æZ^“?ßk›ñ$ÎfØÈÙ©k¹Û+–(„‹bQÎÊ-ÖØár¡Í›)ıëTk8
+={Rõú¼;avŒ©Çx±WÖnMtÕlÇ’$w	€ƒ·‰«1zcÎAÉ„°YWüÏ;a‰ÏÚô©HÔ,Ã!Á:4†D0CÖúW}–õı7«a>ÆHÊ­•=QŞ{ ­õÄ~èT!>yPĞi«®°eVì*fİqÎñÂkUQªLğe³bRP÷Ys™/Yu¦İµ«Ñà‚İÀÃÂ~Ü×MÿKU… úY¡.éâF›²Ò¬Ö·ş5Ær” T­÷Ã‘ƒ·Î¢İÛÅ®y„=|É ˆ~>Y’wN*3ø†µEÇ“Î°;ßY&áF‹­ÆäƒVtµ©O¸PÕôc‘Õ•&O5M”/ÖÕ¶Áô„}*@Ÿ[xì‘.ÑUÆhÀän»Û+rFU]‹xÚDR–Ö
+sL³4²F!´7qpºÊ?SM£7;âåíXaCMŠfK‚oP¯Õõ•·ùn“s¨¡À[k6~4FÂÓfN6.â“šMLøÔÙ³N­™É’·ğÕTz²`Á<“Ü–ÁIÇkmªB¯¤ƒC”ÔÁnœ™ñÔR!Â¥“Qô¤Có[fæJSOöB—ºC¨æ©@–4|yI®BÈ)×ì³FåJ<nA$›_°DTlÁ×C	Ø«ÊÆ(4ÉÀ¯¤®Şµ¡Qzá´¼]ıVºÏğ¨Ë3µ`è-aB@®;¬Ù²5@YC€×`Óïª	M€EÄUŸ” õf®Íô¾â$·B›ˆp·‘a¯ÏLËÛJl…÷Qø0‹t=DîeÅ£ù‹)’Ï'ñbm°n&{a>Í/]f)O•My¤NŠË³‰$ÎÎt]•ø’;KM¦{ÖøÑ¢ùæ'sjÎë<°çê'[É÷¤ÂOE“"g[Æ‘{´®©Ä°UeäLEUk§ş1,…h`á—ö5ÇáZÜkzÅ¤LZÍ6q™iºÀÀƒ§U¬÷Ñ@¡ˆx¹zƒ óŒ6°›>½”#H’ÀsM×OKK(,Q­8Uök²i”ÙÉÛÇ<1C¸Ò\Nàf(<3ëR¦ŠbWĞÛ•ÑìP“]Å2Kd_Êí$ñyålæd©Tª¸9IUÈ°¹f…6tŠ¥¯­ed±Õ1`]¢æbà¯+8\~ûÿz£4õæSKPWËYrj0>;!OÎd±7Ô—«8Q                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

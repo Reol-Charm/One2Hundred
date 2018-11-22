@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			    http://www.springframework.org/schema/beans/spring-beans.xsd
+			    http://www.springframework.org/schema/context
+			    http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--
+            整合 mybatis 框架
+    将以前的 sqlMapConfig.xml 文件中的内容配置到 spring 的配置文件中,
+            1. 使用配置文件形式，数据库连接
+            2. mapper.xml 配置 ，让 spring 管理 sqlsessionfactory
+                使用 mybatis 和 spring 整合包中的 SqlSessionFactoryBean
+            3. 配置 mapper 扫描器 ：MapperScannerConfigurer 用来产生代理对象
+    -->
+    <!--使用配置文件形式，加载数据库连接-->
+    <context:property-placeholder location="classpath*:oracle.properties"/>
+    <!-- 数据库连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!-- 驱动 -->
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <!-- url -->
+        <property name="url" value="${jdbc.url}"/>
+        <!-- 用户名 -->
+        <property name="username" value="${jdbc.username}"/>
+        <!-- 密码 -->
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!-- mapper 配置 -->
+    <!-- 让 spring 管理 sqlsessionfactory 使用 mybatis 和 spring 整合包中的 -->
+    <bean id="sqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!--配置被起别名的包-->
+        <property name="typeAliasesPackage" value="me.reolcharm.domain"/>
+        <!--映射配置文件, mapperLocations 用来解决 mapper 包和 mapper.xml 不同路径的问题-->
+        <!--<property name="mapperLocations" value="classpath:me/reolcharm/mapper/*.xml"/>-->
+
+        <!--分页插件 pageHelper-->
+        <!-- 注意其他配置 -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <!--使用下面的方式配置参数，一行配置一个 -->
+                        <props>
+                            <prop key="helperDialect">oracle</prop>
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
+
+    </bean>
+    <!-- mapper 扫描器 ：用来产生代理对象-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="me.reolcharm.mapper"/>
+    </bean>
+    <context:component-scan base-package="me.reolcharm.mapper"/>
+</beans>

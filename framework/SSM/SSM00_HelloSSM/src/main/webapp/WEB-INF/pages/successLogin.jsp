@@ -12,7 +12,7 @@
     <title>Login Success</title>
 </head>
 <body>
-<h3 align="center">欢迎您!<span style="color: lightsalmon">${account.username}</span>
+<h3 align="center">欢迎您!<span style="color: lightsalmon">${account.name}</span>
     <c:if test="true">先生~</c:if>
 </h3>
 </body>

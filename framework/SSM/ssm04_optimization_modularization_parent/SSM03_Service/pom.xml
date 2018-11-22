@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>SSM03_Modularization_Parent</artifactId>
+        <groupId>me.reolcharm</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>SSM03_Service</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- dao 层的依赖 -->
+        <dependency>
+            <groupId>me.reolcharm</groupId>
+            <artifactId>SSM03_DAO</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--pojo 依赖-->
+        <dependency>
+            <groupId>me.reolcharm</groupId>
+            <artifactId>ssm04_Domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--
+                junit
+        junit 的依赖范围是 test, 该传递依赖的依赖范围不能被传递
+        所以一般直接就在本模块的 pom.xml 中 添加依赖就好.
+        -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.reolcharm</groupId>
+            <artifactId>ssm04_Domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+</project>
